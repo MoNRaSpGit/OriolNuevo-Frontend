@@ -1,0 +1,60 @@
+import { FaTimes } from 'react-icons/fa'
+import type { ProductoBoleta } from '../../context/CarritoContext'
+
+interface Props {
+  productosSeleccionados: ProductoBoleta[]
+  handleEliminarDeFactura: (codigo: number) => void
+}
+
+const TablaProductoFactura = ({ productosSeleccionados, handleEliminarDeFactura }: Props) => {
+  return (
+    <table
+      className="table table-bordered table-hover table-sm"
+      style={{ margin: 0, width: '100%', textAlign: 'center' }}
+    >
+      <thead className="thead-light">
+        <tr>
+          <th>Cantidad</th>
+          <th>Descripción</th>
+          <th>Precio Unitario</th>
+          <th>Total</th>
+          <th className="col-eliminar">Eliminar</th>
+        </tr>
+      </thead>
+      <tbody>
+        {productosSeleccionados.map((producto) => {
+          const descripcion = producto.descripcion || 'Sin descripción'
+          const precioNum = producto.precio || 0
+          const cantidad = producto.cantidad || 0
+          const simboloMoneda = producto.currency === 'USD' ? 'U$' : '$'
+          const subtotal = precioNum * cantidad
+
+          return (
+            <tr key={producto.codigo}>
+              <td>{cantidad}</td>
+              <td>{descripcion}</td>
+              <td>
+                {simboloMoneda}
+                {precioNum.toFixed(2)}
+              </td>
+              <td>
+                {simboloMoneda}
+                {subtotal.toFixed(2)}
+              </td>
+              <td className="col-eliminar">
+                <button
+                  className="btn btn-danger btn-sm"
+                  onClick={() => handleEliminarDeFactura(producto.codigo)}
+                >
+                  <FaTimes />
+                </button>
+              </td>
+            </tr>
+          )
+        })}
+      </tbody>
+    </table>
+  )
+}
+
+export default TablaProductoFactura

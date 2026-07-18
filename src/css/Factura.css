@@ -1,0 +1,100 @@
+/* ----------------
+   FACTURA CONTAINER
+   ---------------- */
+.factura-container {
+  position: relative;
+  height: 1073px;
+  border: 2px solid #333;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #fff;
+  max-width: 1200px;
+  margin: 20px auto;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ----------------
+   HEADER
+   ---------------- */
+.factura-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+}
+
+.logo-dueno-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.factura-logo {
+  width: 150px;
+  height: auto;
+}
+
+/* ----------------
+   CUERPO (BODY)
+   ---------------- */
+.factura-body {
+  width: 100%;
+  height: 500px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+}
+
+.factura-body table {
+  width: 100%;
+  margin: 0;
+}
+
+.factura-body th {
+  background-color: #c0bebe;
+  padding: 10px;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: top;
+}
+
+.factura-body td {
+  text-align: center;
+  padding: 8px;
+  vertical-align: top;
+}
+
+.factura-body tr {
+  height: auto;
+}
+
+.thead-light th {
+  background-color: rgb(196, 194, 194);
+}
+
+/* ----------------
+   LÍNEA DIVISORIA
+   ---------------- */
+.linea-divisoria {
+  height: 2px;
+  background-color: #000;
+  margin: 10px 0;
+}
+
+.factura-linea-footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 120px;
+  height: 2px;
+  background-color: #000;
+  margin: 0;
+}
+
+@media print {
+  .col-eliminar,
+  .col-convertir {
+    display: none !important;
+  }
+}

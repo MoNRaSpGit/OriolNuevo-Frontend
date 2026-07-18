@@ -1,0 +1,93 @@
+.header-box {
+  width: 400px;
+  height: 280px;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid black;
+}
+
+.header-row {
+  flex: 1;
+  text-align: center;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border-bottom: 2px solid black;
+}
+
+.header-row:last-child {
+  border-bottom: none;
+}
+
+.header-rut {
+  background-color: #d9d9d9;
+  color: black;
+}
+
+.header-efacture {
+  background-color: white;
+  color: #555;
+  font-weight: normal;
+  font-size: 14px;
+}
+
+.header-multi {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.header-titles-values {
+  font-weight: bold;
+  display: flex;
+  width: 100%;
+  border-bottom: 2px solid black;
+}
+
+.header-title {
+  background-color: #d9d9d9;
+  color: black;
+}
+
+.header-col {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  border-right: 2px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-title:last-child, .header-value:last-child {
+  border-right: none;
+}
+
+.header-value {
+  font-weight: normal;
+  font-size: 14px;
+  color: #555;
+  border-bottom: none;
+}
+
+.header-receptor {
+  background-color: #d9d9d9;
+  color: black;
+}
+
+.header-cliente {
+  color: #555;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5px;
+  font-weight: normal;
+  font-size: 14px;
+  height: 100px;
+  overflow: hidden;
+  padding-bottom: 20px;
+  padding-top: 15px;
+}
