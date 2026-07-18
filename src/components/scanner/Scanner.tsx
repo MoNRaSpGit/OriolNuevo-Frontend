@@ -1,34 +1,42 @@
 import { useRef, useState, type FormEvent } from 'react'
 import { useCarrito } from '../../context/CarritoContext'
 import { getProductoPorCodigoBarra } from '../../services/productos.service'
+import ProductoNoEncontradoModal from './ProductoNoEncontradoModal'
+import type { Producto } from '../../types/producto'
 import '../../styles/scanner/scanner.scss'
 
 const Scanner = () => {
   const { productosSeleccionados, addOrUpdateProduct } = useCarrito()
   const [codigo, setCodigo] = useState('')
-  const [mensaje, setMensaje] = useState<{ tipo: 'error' | 'no-encontrado'; texto: string } | null>(null)
+  const [error, setError] = useState('')
+  const [codigoNoEncontrado, setCodigoNoEncontrado] = useState<string | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+
+  const agregarAlCarrito = (producto: Producto) => {
+    addOrUpdateProduct({
+      id: producto.id,
+      name: producto.name,
+      description: producto.description,
+      price: parseFloat(producto.price),
+      currency: producto.currency,
+      image: producto.image,
+    })
+  }
 
   const buscarProducto = async (codigoBarra: string) => {
     if (!codigoBarra.trim()) return
-    setMensaje(null)
+    setError('')
     try {
       const producto = await getProductoPorCodigoBarra(codigoBarra.trim())
       if (!producto) {
-        setMensaje({ tipo: 'no-encontrado', texto: `No se encontró ningún producto con el código ${codigoBarra}.` })
+        setCodigoNoEncontrado(codigoBarra.trim())
         return
       }
-      addOrUpdateProduct({
-        id: producto.id,
-        name: producto.name,
-        description: producto.description,
-        price: parseFloat(producto.price),
-        currency: producto.currency,
-        image: producto.image,
-      })
+      agregarAlCarrito(producto)
+      setCodigo('')
+      inputRef.current?.focus()
     } catch {
-      setMensaje({ tipo: 'error', texto: 'No se pudo conectar con el backend.' })
-    } finally {
+      setError('No se pudo conectar con el backend.')
       setCodigo('')
       inputRef.current?.focus()
     }
@@ -37,6 +45,19 @@ const Scanner = () => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
     buscarProducto(codigo)
+  }
+
+  const handleProductoGuardado = (producto: Producto) => {
+    agregarAlCarrito(producto)
+    setCodigoNoEncontrado(null)
+    setCodigo('')
+    inputRef.current?.focus()
+  }
+
+  const handleCancelarModal = () => {
+    setCodigoNoEncontrado(null)
+    setCodigo('')
+    inputRef.current?.focus()
   }
 
   let totalPesos = 0
@@ -65,11 +86,7 @@ const Scanner = () => {
         </button>
       </form>
 
-      {mensaje && (
-        <div className={`alert ${mensaje.tipo === 'error' ? 'alert-danger' : 'alert-warning'}`}>
-          {mensaje.texto}
-        </div>
-      )}
+      {error && <div className="alert alert-danger">{error}</div>}
 
       {productosSeleccionados.length === 0 ? (
         <p className="text-muted">Esperando lectura de código de barra...</p>
@@ -100,6 +117,14 @@ const Scanner = () => {
             {totalDolares > 0 && <div>Total U$: {totalDolares.toFixed(2)}</div>}
           </div>
         </div>
+      )}
+
+      {codigoNoEncontrado && (
+        <ProductoNoEncontradoModal
+          codigoBarra={codigoNoEncontrado}
+          onCancelar={handleCancelarModal}
+          onGuardado={handleProductoGuardado}
+        />
       )}
     </div>
   )

@@ -13,3 +13,20 @@ export async function getProductoPorCodigoBarra(codigoBarra: string): Promise<Pr
   if (!res.ok) throw new Error('No se pudo buscar el producto')
   return res.json()
 }
+
+export interface NuevoProducto {
+  name: string
+  price: number
+  currency: 'UYU' | 'USD'
+  codigo_barra: string
+}
+
+export async function crearProducto(producto: NuevoProducto): Promise<Producto> {
+  const res = await fetch(`${API_BASE_URL}/api/productos`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ ...producto, image: '', description: '' }),
+  })
+  if (!res.ok) throw new Error('No se pudo crear el producto')
+  return res.json()
+}
