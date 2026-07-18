@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useCarrito } from '../../context/CarritoContext'
+import { getTasaDolar } from '../../services/config.service'
 import CabeceraFactura, { type DatosFactura } from './CabeceraFactura'
 import TablaProductoFactura from './TablaProductoFactura'
 import PieFactura from './PieFactura'
@@ -10,7 +11,9 @@ import '../../styles/factura/dueno.scss'
 import '../../styles/factura/rectangulo.scss'
 import '../../styles/factura/pie.scss'
 
-const TASA_DOLAR = 40
+// Valor de respaldo si falla la conexión al cargar la cotización real
+// desde el backend (única fuente de verdad: config/constants.ts).
+const TASA_DOLAR_RESPALDO = 40
 
 const obtenerFechaActual = () =>
   new Date().toLocaleDateString('es-UY', { day: '2-digit', month: '2-digit', year: 'numeric' })
@@ -18,6 +21,13 @@ const obtenerFechaActual = () =>
 const Factura = () => {
   const { productosSeleccionados, removeProduct } = useCarrito()
   const [finalEnDolares, setFinalEnDolares] = useState(false)
+  const [tasaDolar, setTasaDolar] = useState(TASA_DOLAR_RESPALDO)
+
+  useEffect(() => {
+    getTasaDolar()
+      .then(setTasaDolar)
+      .catch(() => setTasaDolar(TASA_DOLAR_RESPALDO))
+  }, [])
 
   const [datosFactura] = useState<DatosFactura>({
     rutEmisor: '',
@@ -71,7 +81,7 @@ const Factura = () => {
         totalDolares={totalDolares}
         finalEnDolares={finalEnDolares}
         setFinalEnDolares={setFinalEnDolares}
-        tasaDolar={TASA_DOLAR}
+        tasaDolar={tasaDolar}
       />
     </div>
   )
