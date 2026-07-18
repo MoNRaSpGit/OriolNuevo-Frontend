@@ -2,18 +2,82 @@
   display: flex;
   gap: 10px;
   max-width: 500px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .scanner-input {
   font-size: 1.1rem;
 }
 
-.scanner-resultado {
-  max-width: 500px;
+.scanner-lista {
+  max-width: 700px;
 }
 
-.scanner-card {
-  border-radius: 15px;
-  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+.scanner-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.scanner-item-img {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 0.7rem;
+  color: #aaa;
+  text-align: center;
+}
+
+.scanner-item-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.scanner-item-info {
+  flex-grow: 1;
+}
+
+.scanner-item-nombre {
+  font-weight: bold;
+}
+
+.scanner-item-precio {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.scanner-item-cantidad {
+  font-weight: bold;
+  min-width: 40px;
+  text-align: center;
+}
+
+.scanner-item-total {
+  font-weight: bold;
+  min-width: 90px;
+  text-align: right;
+  color: #218838;
+}
+
+.scanner-total {
+  margin-top: 16px;
+  padding: 14px;
+  background-color: #eee;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: right;
 }

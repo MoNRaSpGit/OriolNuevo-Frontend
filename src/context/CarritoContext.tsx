@@ -1,5 +1,13 @@
 import { createContext, useContext, useState, type ReactNode } from 'react'
-import type { ProductoDemo } from '../data/productosDemo'
+
+export interface ProductoParaCarrito {
+  id: number
+  name: string
+  description: string
+  price: number
+  currency: 'UYU' | 'USD'
+  image: string
+}
 
 export interface ProductoBoleta {
   codigo: number
@@ -7,13 +15,14 @@ export interface ProductoBoleta {
   descripcion: string
   precio: number
   currency: 'UYU' | 'USD'
+  image: string
   cantidad: number
   total: number
 }
 
 interface CarritoContextValue {
   productosSeleccionados: ProductoBoleta[]
-  addOrUpdateProduct: (producto: ProductoDemo) => void
+  addOrUpdateProduct: (producto: ProductoParaCarrito) => void
   updateProductQuantity: (codigo: number, cantidad: number) => void
   removeProduct: (codigo: number) => void
 }
@@ -23,7 +32,7 @@ const CarritoContext = createContext<CarritoContextValue | undefined>(undefined)
 export function CarritoProvider({ children }: { children: ReactNode }) {
   const [productosSeleccionados, setProductosSeleccionados] = useState<ProductoBoleta[]>([])
 
-  const addOrUpdateProduct = (producto: ProductoDemo) => {
+  const addOrUpdateProduct = (producto: ProductoParaCarrito) => {
     setProductosSeleccionados((prev) => {
       const existente = prev.find((p) => p.codigo === producto.id)
       if (existente) {
@@ -41,6 +50,7 @@ export function CarritoProvider({ children }: { children: ReactNode }) {
           descripcion: producto.description,
           precio: producto.price,
           currency: producto.currency || 'UYU',
+          image: producto.image,
           cantidad: 1,
           total: producto.price,
         },

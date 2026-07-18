@@ -1,38 +1,47 @@
 import { useRef, useState, type FormEvent } from 'react'
+import { useCarrito } from '../../context/CarritoContext'
 import '../../css/Scanner.css'
 
-interface ProductoEncontrado {
+interface ProductoBackend {
   id: number
   name: string
   price: string
   image: string
   description: string
-  currency: string
+  currency: 'UYU' | 'USD'
   codigo_barra: string
 }
 
 const Scanner = () => {
+  const { productosSeleccionados, addOrUpdateProduct } = useCarrito()
   const [codigo, setCodigo] = useState('')
-  const [producto, setProducto] = useState<ProductoEncontrado | null>(null)
-  const [estado, setEstado] = useState<'idle' | 'buscando' | 'encontrado' | 'no-encontrado' | 'error'>('idle')
+  const [mensaje, setMensaje] = useState<{ tipo: 'error' | 'no-encontrado'; texto: string } | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const buscarProducto = async (codigoBarra: string) => {
     if (!codigoBarra.trim()) return
-    setEstado('buscando')
-    setProducto(null)
+    setMensaje(null)
     try {
       const res = await fetch(`/api/productos/codigo/${encodeURIComponent(codigoBarra.trim())}`)
       if (res.status === 404) {
-        setEstado('no-encontrado')
+        setMensaje({ tipo: 'no-encontrado', texto: `No se encontró ningún producto con el código ${codigoBarra}.` })
         return
       }
       if (!res.ok) throw new Error('Error de backend')
-      const data = await res.json()
-      setProducto(data)
-      setEstado('encontrado')
+      const producto: ProductoBackend = await res.json()
+      addOrUpdateProduct({
+        id: producto.id,
+        name: producto.name,
+        description: producto.description,
+        price: parseFloat(producto.price),
+        currency: producto.currency,
+        image: producto.image,
+      })
     } catch {
-      setEstado('error')
+      setMensaje({ tipo: 'error', texto: 'No se pudo conectar con el backend.' })
+    } finally {
+      setCodigo('')
+      inputRef.current?.focus()
     }
   }
 
@@ -41,12 +50,12 @@ const Scanner = () => {
     buscarProducto(codigo)
   }
 
-  const handleNuevaLectura = () => {
-    setCodigo('')
-    setProducto(null)
-    setEstado('idle')
-    inputRef.current?.focus()
-  }
+  let totalPesos = 0
+  let totalDolares = 0
+  productosSeleccionados.forEach((p) => {
+    if (p.currency === 'USD') totalDolares += p.total
+    else totalPesos += p.total
+  })
 
   return (
     <div className="container mt-4 scanner-container">
@@ -67,32 +76,42 @@ const Scanner = () => {
         </button>
       </form>
 
-      <div className="scanner-resultado">
-        {estado === 'idle' && <p className="text-muted">Esperando lectura de código de barra...</p>}
-        {estado === 'buscando' && <p>Buscando...</p>}
-        {estado === 'error' && <p className="text-danger">No se pudo conectar con el backend.</p>}
-        {estado === 'no-encontrado' && (
-          <div className="alert alert-warning mb-0">
-            No se encontró ningún producto con el código <strong>{codigo}</strong>.
-          </div>
-        )}
-        {estado === 'encontrado' && producto && (
-          <div className="card scanner-card">
-            <div className="card-body">
-              <h4 className="card-title">{producto.name}</h4>
-              <p className="card-text">{producto.description}</p>
-              <p className="card-text fw-bold">
-                {producto.currency === 'USD' ? 'U$' : '$'}
-                {producto.price}
-              </p>
-              <p className="card-text text-muted">Código de barra: {producto.codigo_barra}</p>
-              <button className="btn btn-outline-secondary btn-sm" onClick={handleNuevaLectura}>
-                Nueva lectura
-              </button>
+      {mensaje && (
+        <div className={`alert ${mensaje.tipo === 'error' ? 'alert-danger' : 'alert-warning'}`}>
+          {mensaje.texto}
+        </div>
+      )}
+
+      {productosSeleccionados.length === 0 ? (
+        <p className="text-muted">Esperando lectura de código de barra...</p>
+      ) : (
+        <div className="scanner-lista">
+          {productosSeleccionados.map((p) => (
+            <div className="scanner-item" key={p.codigo}>
+              <div className="scanner-item-img">
+                {p.image ? <img src={p.image} alt={p.name} /> : <span>Sin imagen</span>}
+              </div>
+              <div className="scanner-item-info">
+                <div className="scanner-item-nombre">{p.name}</div>
+                <div className="scanner-item-precio">
+                  {p.currency === 'USD' ? 'U$' : '$'}
+                  {p.precio.toFixed(2)} c/u
+                </div>
+              </div>
+              <div className="scanner-item-cantidad">x{p.cantidad}</div>
+              <div className="scanner-item-total">
+                {p.currency === 'USD' ? 'U$' : '$'}
+                {p.total.toFixed(2)}
+              </div>
             </div>
+          ))}
+
+          <div className="scanner-total">
+            {totalPesos > 0 && <div>Total $: {totalPesos.toFixed(2)}</div>}
+            {totalDolares > 0 && <div>Total U$: {totalDolares.toFixed(2)}</div>}
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   )
 }
