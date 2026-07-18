@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { getClientes } from '../../services/clientes.service'
-import { registrarVentaCredito } from '../../services/ventas.service'
+import { registrarVentaCredito, registrarVentaContado } from '../../services/ventas.service'
 import type { ProductoBoleta } from '../../context/CarritoContext'
-import type { Cliente } from '../../types/cliente'
+import type { Cliente, ItemVenta } from '../../types/cliente'
 import '../../styles/scanner/modal.scss'
 
 type MetodoPago = 'efectivo' | 'tarjeta' | 'credito'
@@ -30,25 +30,29 @@ const CheckoutModal = ({ productos, totalPesos, totalDolares, onCancelar, onConf
     }
   }, [metodo])
 
+  const items: ItemVenta[] = productos.map((p) => ({
+    id: p.codigo,
+    name: p.name,
+    cantidad: p.cantidad,
+    precio: p.precio,
+    currency: p.currency,
+  }))
+
   const handleConfirmar = async () => {
+    setError('')
+
     if (metodo === 'credito') {
       if (!clienteId) {
         setError('Seleccioná un cliente.')
         return
       }
-      setError('')
       setGuardando(true)
       try {
         await registrarVentaCredito({
           cliente_id: Number(clienteId),
           total_pesos: totalPesos,
           total_dolares: totalDolares,
-          items: productos.map((p) => ({
-            name: p.name,
-            cantidad: p.cantidad,
-            precio: p.precio,
-            currency: p.currency,
-          })),
+          items,
         })
         onConfirmado()
       } catch {
@@ -58,8 +62,15 @@ const CheckoutModal = ({ productos, totalPesos, totalDolares, onCancelar, onConf
       return
     }
 
-    // Efectivo o tarjeta: no queda registrado a nombre de ningún cliente.
-    onConfirmado()
+    // Efectivo o tarjeta: no queda a nombre de ningún cliente, pero igual descuenta stock.
+    setGuardando(true)
+    try {
+      await registrarVentaContado(items)
+      onConfirmado()
+    } catch {
+      setError('No se pudo registrar la venta. Probá de nuevo.')
+      setGuardando(false)
+    }
   }
 
   return (

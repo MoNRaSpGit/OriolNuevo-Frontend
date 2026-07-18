@@ -19,6 +19,7 @@ export interface NuevoProducto {
   price: number
   currency: 'UYU' | 'USD'
   codigo_barra: string
+  stock: number
 }
 
 export async function crearProducto(producto: NuevoProducto): Promise<Producto> {

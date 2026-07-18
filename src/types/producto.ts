@@ -6,4 +6,5 @@ export interface Producto {
   description: string
   currency: 'UYU' | 'USD'
   codigo_barra: string | null
+  stock: number
 }

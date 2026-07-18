@@ -12,6 +12,7 @@ interface Props {
 const ProductoNoEncontradoModal = ({ codigoBarra, onCancelar, onGuardado }: Props) => {
   const [name, setName] = useState('')
   const [price, setPrice] = useState('')
+  const [stock, setStock] = useState('')
   const [currency, setCurrency] = useState<'UYU' | 'USD'>('UYU')
   const [guardando, setGuardando] = useState(false)
   const [error, setError] = useState('')
@@ -19,12 +20,17 @@ const ProductoNoEncontradoModal = ({ codigoBarra, onCancelar, onGuardado }: Prop
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     const precioNum = parseFloat(price)
+    const stockNum = parseInt(stock, 10)
     if (!name.trim()) {
       setError('Ingresá el nombre del producto.')
       return
     }
     if (!precioNum || precioNum <= 0) {
       setError('Ingresá un precio válido.')
+      return
+    }
+    if (Number.isNaN(stockNum) || stockNum < 0) {
+      setError('Ingresá un stock válido.')
       return
     }
 
@@ -36,6 +42,7 @@ const ProductoNoEncontradoModal = ({ codigoBarra, onCancelar, onGuardado }: Prop
         price: precioNum,
         currency,
         codigo_barra: codigoBarra,
+        stock: stockNum,
       })
       onGuardado(producto)
     } catch {
@@ -92,6 +99,18 @@ const ProductoNoEncontradoModal = ({ codigoBarra, onCancelar, onGuardado }: Prop
                 </button>
               </div>
             </div>
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">Stock</label>
+            <input
+              type="number"
+              step="1"
+              min="0"
+              className="form-control"
+              value={stock}
+              onChange={(e) => setStock(e.target.value)}
+            />
           </div>
 
           {error && <p className="text-danger">{error}</p>}

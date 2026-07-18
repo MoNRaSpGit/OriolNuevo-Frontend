@@ -16,3 +16,12 @@ export async function registrarVentaCredito(venta: NuevaVentaCredito): Promise<v
   })
   if (!res.ok) throw new Error('No se pudo registrar la venta')
 }
+
+export async function registrarVentaContado(items: ItemVenta[]): Promise<void> {
+  const res = await fetch(`${API_BASE_URL}/api/ventas/contado`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ items }),
+  })
+  if (!res.ok) throw new Error('No se pudo registrar la venta')
+}

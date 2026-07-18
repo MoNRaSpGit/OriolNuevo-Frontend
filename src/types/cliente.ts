@@ -7,6 +7,7 @@ export interface Cliente {
 }
 
 export interface ItemVenta {
+  id: number
   name: string
   cantidad: number
   precio: number
