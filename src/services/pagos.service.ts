@@ -1,16 +1,15 @@
-import { API_BASE_URL } from '../config/api'
+import { apiFetch } from './apiClient'
 import type { Pago } from '../types/pago'
 
 export async function getPagos(): Promise<Pago[]> {
-  const res = await fetch(`${API_BASE_URL}/api/pagos`)
+  const res = await apiFetch('/api/pagos')
   if (!res.ok) throw new Error('No se pudo obtener la lista de pagos')
   return res.json()
 }
 
 export async function crearPago(valor: number, detalle: string): Promise<Pago> {
-  const res = await fetch(`${API_BASE_URL}/api/pagos`, {
+  const res = await apiFetch('/api/pagos', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ valor, detalle }),
   })
   if (!res.ok) throw new Error('No se pudo crear el pago')

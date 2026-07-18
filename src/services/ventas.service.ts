@@ -1,4 +1,4 @@
-import { API_BASE_URL } from '../config/api'
+import { apiFetch } from './apiClient'
 import type { ItemVenta } from '../types/venta'
 
 export interface NuevaVentaCredito {
@@ -16,18 +16,16 @@ export interface NuevaVentaContado {
 }
 
 export async function registrarVentaCredito(venta: NuevaVentaCredito): Promise<void> {
-  const res = await fetch(`${API_BASE_URL}/api/ventas/credito`, {
+  const res = await apiFetch('/api/ventas/credito', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(venta),
   })
   if (!res.ok) throw new Error('No se pudo registrar la venta')
 }
 
 export async function registrarVentaContado(venta: NuevaVentaContado): Promise<void> {
-  const res = await fetch(`${API_BASE_URL}/api/ventas/contado`, {
+  const res = await apiFetch('/api/ventas/contado', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(venta),
   })
   if (!res.ok) throw new Error('No se pudo registrar la venta')
