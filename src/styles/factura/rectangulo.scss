@@ -1,3 +1,5 @@
+@use '../variables' as v;
+
 .header-box {
   width: 400px;
   height: 280px;
@@ -15,20 +17,20 @@
   justify-content: center;
   width: 100%;
   border-bottom: 2px solid black;
-}
 
-.header-row:last-child {
-  border-bottom: none;
+  &:last-child {
+    border-bottom: none;
+  }
 }
 
 .header-rut {
-  background-color: #d9d9d9;
+  background-color: v.$color-bg-gray-dark;
   color: black;
 }
 
 .header-efacture {
   background-color: white;
-  color: #555;
+  color: v.$color-text-muted;
   font-weight: normal;
   font-size: 14px;
 }
@@ -47,7 +49,7 @@
 }
 
 .header-title {
-  background-color: #d9d9d9;
+  background-color: v.$color-bg-gray-dark;
   color: black;
 }
 
@@ -61,24 +63,25 @@
   justify-content: center;
 }
 
-.header-title:last-child, .header-value:last-child {
+.header-title:last-child,
+.header-value:last-child {
   border-right: none;
 }
 
 .header-value {
   font-weight: normal;
   font-size: 14px;
-  color: #555;
+  color: v.$color-text-muted;
   border-bottom: none;
 }
 
 .header-receptor {
-  background-color: #d9d9d9;
+  background-color: v.$color-bg-gray-dark;
   color: black;
 }
 
 .header-cliente {
-  color: #555;
+  color: v.$color-text-muted;
   text-align: center;
   display: flex;
   flex-direction: column;

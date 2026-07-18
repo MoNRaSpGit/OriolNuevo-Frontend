@@ -1,3 +1,5 @@
+@use '../variables' as v;
+
 /* ----------------
    FACTURA CONTAINER
    ---------------- */
@@ -7,7 +9,7 @@
   border: 2px solid #333;
   padding: 20px;
   border-radius: 8px;
-  background-color: #fff;
+  background-color: v.$color-white;
   max-width: 1200px;
   margin: 20px auto;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -44,29 +46,29 @@
   overflow-y: auto;
   margin: 0;
   padding: 0;
-}
 
-.factura-body table {
-  width: 100%;
-  margin: 0;
-}
+  table {
+    width: 100%;
+    margin: 0;
+  }
 
-.factura-body th {
-  background-color: #c0bebe;
-  padding: 10px;
-  font-weight: bold;
-  text-align: center;
-  vertical-align: top;
-}
+  th {
+    background-color: v.$color-bg-table-header;
+    padding: 10px;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: top;
+  }
 
-.factura-body td {
-  text-align: center;
-  padding: 8px;
-  vertical-align: top;
-}
+  td {
+    text-align: center;
+    padding: 8px;
+    vertical-align: top;
+  }
 
-.factura-body tr {
-  height: auto;
+  tr {
+    height: auto;
+  }
 }
 
 .thead-light th {
@@ -78,7 +80,7 @@
    ---------------- */
 .linea-divisoria {
   height: 2px;
-  background-color: #000;
+  background-color: v.$color-black;
   margin: 10px 0;
 }
 
@@ -88,7 +90,7 @@
   right: 0;
   bottom: 120px;
   height: 2px;
-  background-color: #000;
+  background-color: v.$color-black;
   margin: 0;
 }
 

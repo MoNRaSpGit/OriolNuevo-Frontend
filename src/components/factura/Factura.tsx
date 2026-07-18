@@ -4,11 +4,11 @@ import CabeceraFactura, { type DatosFactura } from './CabeceraFactura'
 import TablaProductoFactura from './TablaProductoFactura'
 import PieFactura from './PieFactura'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import '../../css/Factura.css'
-import '../../css/logo.css'
-import '../../css/Dueno.css'
-import '../../css/Rectangulo.css'
-import '../../css/Pie.css'
+import '../../styles/factura/factura.scss'
+import '../../styles/factura/logo.scss'
+import '../../styles/factura/dueno.scss'
+import '../../styles/factura/rectangulo.scss'
+import '../../styles/factura/pie.scss'
 
 const TASA_DOLAR = 40
 

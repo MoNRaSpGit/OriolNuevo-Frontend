@@ -1,26 +1,16 @@
 import { useState } from 'react'
-import { API_BASE_URL } from '../../config/api'
-
-interface ProductoBDD {
-  id: number
-  name: string
-  price: string
-  image: string
-  description: string
-  currency: string
-}
+import { getProductos } from '../../services/productos.service'
+import type { Producto } from '../../types/producto'
 
 const TestBDD = () => {
-  const [productos, setProductos] = useState<ProductoBDD[] | null>(null)
+  const [productos, setProductos] = useState<Producto[] | null>(null)
   const [error, setError] = useState('')
 
   const probarConexion = async () => {
     setError('')
     setProductos(null)
     try {
-      const res = await fetch(`${API_BASE_URL}/api/productos`)
-      if (!res.ok) throw new Error('Respuesta no OK del backend')
-      const data = await res.json()
+      const data = await getProductos()
       setProductos(data)
     } catch {
       setError('No se pudo conectar con la base de datos')

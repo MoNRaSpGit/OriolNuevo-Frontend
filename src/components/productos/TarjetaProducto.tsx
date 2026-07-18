@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { FaFileInvoice, FaPlus, FaMinus } from 'react-icons/fa'
 import { useCarrito } from '../../context/CarritoContext'
 import type { ProductoDemo } from '../../data/productosDemo'
-import '../../css/TarjetasProducto.css'
+import '../../styles/productos/tarjeta-producto.scss'
 
 const LIMITE_PRODUCTOS = 8
 

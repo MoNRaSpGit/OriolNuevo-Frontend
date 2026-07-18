@@ -1,17 +1,7 @@
 import { useRef, useState, type FormEvent } from 'react'
 import { useCarrito } from '../../context/CarritoContext'
-import { API_BASE_URL } from '../../config/api'
-import '../../css/Scanner.css'
-
-interface ProductoBackend {
-  id: number
-  name: string
-  price: string
-  image: string
-  description: string
-  currency: 'UYU' | 'USD'
-  codigo_barra: string
-}
+import { getProductoPorCodigoBarra } from '../../services/productos.service'
+import '../../styles/scanner/scanner.scss'
 
 const Scanner = () => {
   const { productosSeleccionados, addOrUpdateProduct } = useCarrito()
@@ -23,13 +13,11 @@ const Scanner = () => {
     if (!codigoBarra.trim()) return
     setMensaje(null)
     try {
-      const res = await fetch(`${API_BASE_URL}/api/productos/codigo/${encodeURIComponent(codigoBarra.trim())}`)
-      if (res.status === 404) {
+      const producto = await getProductoPorCodigoBarra(codigoBarra.trim())
+      if (!producto) {
         setMensaje({ tipo: 'no-encontrado', texto: `No se encontró ningún producto con el código ${codigoBarra}.` })
         return
       }
-      if (!res.ok) throw new Error('Error de backend')
-      const producto: ProductoBackend = await res.json()
       addOrUpdateProduct({
         id: producto.id,
         name: producto.name,

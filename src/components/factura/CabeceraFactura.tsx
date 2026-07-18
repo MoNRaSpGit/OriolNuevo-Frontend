@@ -1,4 +1,4 @@
-import '../../css/Cabezera.css'
+import '../../styles/factura/cabecera.scss'
 
 export interface DatosFactura {
   rutEmisor: string
