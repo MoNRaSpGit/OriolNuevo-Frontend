@@ -35,6 +35,15 @@
   flex-shrink: 0;
 }
 
+.modal-metodo-pago {
+  display: flex;
+  gap: 8px;
+
+  .btn {
+    flex: 1;
+  }
+}
+
 .modal-acciones {
   display: flex;
   justify-content: flex-end;

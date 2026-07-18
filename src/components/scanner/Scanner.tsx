@@ -2,14 +2,17 @@ import { useRef, useState, type FormEvent } from 'react'
 import { useCarrito } from '../../context/CarritoContext'
 import { getProductoPorCodigoBarra } from '../../services/productos.service'
 import ProductoNoEncontradoModal from './ProductoNoEncontradoModal'
+import CheckoutModal from './CheckoutModal'
 import type { Producto } from '../../types/producto'
 import '../../styles/scanner/scanner.scss'
 
 const Scanner = () => {
-  const { productosSeleccionados, addOrUpdateProduct } = useCarrito()
+  const { productosSeleccionados, addOrUpdateProduct, vaciarCarrito } = useCarrito()
   const [codigo, setCodigo] = useState('')
   const [error, setError] = useState('')
   const [codigoNoEncontrado, setCodigoNoEncontrado] = useState<string | null>(null)
+  const [mostrarCheckout, setMostrarCheckout] = useState(false)
+  const [ventaConfirmada, setVentaConfirmada] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const agregarAlCarrito = (producto: Producto) => {
@@ -60,6 +63,15 @@ const Scanner = () => {
     inputRef.current?.focus()
   }
 
+  const handleVentaConfirmada = () => {
+    vaciarCarrito()
+    setMostrarCheckout(false)
+    setVentaConfirmada(true)
+    setCodigo('')
+    inputRef.current?.focus()
+    setTimeout(() => setVentaConfirmada(false), 4000)
+  }
+
   let totalPesos = 0
   let totalDolares = 0
   productosSeleccionados.forEach((p) => {
@@ -87,6 +99,7 @@ const Scanner = () => {
       </form>
 
       {error && <div className="alert alert-danger">{error}</div>}
+      {ventaConfirmada && <div className="alert alert-success">Venta confirmada correctamente.</div>}
 
       {productosSeleccionados.length === 0 ? (
         <p className="text-muted">Esperando lectura de código de barra...</p>
@@ -116,6 +129,10 @@ const Scanner = () => {
             {totalPesos > 0 && <div>Total $: {totalPesos.toFixed(2)}</div>}
             {totalDolares > 0 && <div>Total U$: {totalDolares.toFixed(2)}</div>}
           </div>
+
+          <button className="btn btn-success mt-3" onClick={() => setMostrarCheckout(true)}>
+            Confirmar compra
+          </button>
         </div>
       )}
 
@@ -124,6 +141,16 @@ const Scanner = () => {
           codigoBarra={codigoNoEncontrado}
           onCancelar={handleCancelarModal}
           onGuardado={handleProductoGuardado}
+        />
+      )}
+
+      {mostrarCheckout && (
+        <CheckoutModal
+          productos={productosSeleccionados}
+          totalPesos={totalPesos}
+          totalDolares={totalDolares}
+          onCancelar={() => setMostrarCheckout(false)}
+          onConfirmado={handleVentaConfirmada}
         />
       )}
     </div>

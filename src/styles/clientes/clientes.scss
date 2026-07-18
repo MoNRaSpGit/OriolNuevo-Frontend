@@ -1,0 +1,85 @@
+@use '../variables' as v;
+
+.clientes-columnas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.clientes-col {
+  background-color: v.$color-white;
+  border: 1px solid v.$color-border-light;
+  border-radius: 10px;
+  padding: 18px;
+  min-height: 300px;
+
+  h5 {
+    margin-bottom: 16px;
+  }
+}
+
+.cliente-lista {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.cliente-item {
+  cursor: pointer;
+
+  &.active {
+    background-color: v.$color-primary;
+    border-color: v.$color-primary;
+    color: v.$color-white;
+  }
+}
+
+.cliente-item-nombre {
+  font-weight: bold;
+}
+
+.cliente-item-deuda {
+  font-size: 0.85rem;
+}
+
+.cliente-deuda-total {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: v.$color-danger;
+}
+
+.historial-lista {
+  list-style: none;
+  padding: 0;
+}
+
+.historial-item {
+  padding: 10px 0;
+  border-bottom: 1px solid v.$color-border-light;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.historial-fecha {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.historial-detalle {
+  color: v.$color-text-muted;
+  font-size: 0.9rem;
+}
+
+.historial-total {
+  font-size: 0.85rem;
+  color: v.$color-success;
+  font-weight: bold;
+}
+
+@media (max-width: 900px) {
+  .clientes-columnas {
+    grid-template-columns: 1fr;
+  }
+}

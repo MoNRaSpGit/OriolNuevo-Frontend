@@ -25,6 +25,7 @@ interface CarritoContextValue {
   addOrUpdateProduct: (producto: ProductoParaCarrito) => void
   updateProductQuantity: (codigo: number, cantidad: number) => void
   removeProduct: (codigo: number) => void
+  vaciarCarrito: () => void
 }
 
 const CarritoContext = createContext<CarritoContextValue | undefined>(undefined)
@@ -68,9 +69,19 @@ export function CarritoProvider({ children }: { children: ReactNode }) {
     setProductosSeleccionados((prev) => prev.filter((p) => p.codigo !== codigo))
   }
 
+  const vaciarCarrito = () => {
+    setProductosSeleccionados([])
+  }
+
   return (
     <CarritoContext.Provider
-      value={{ productosSeleccionados, addOrUpdateProduct, updateProductQuantity, removeProduct }}
+      value={{
+        productosSeleccionados,
+        addOrUpdateProduct,
+        updateProductQuantity,
+        removeProduct,
+        vaciarCarrito,
+      }}
     >
       {children}
     </CarritoContext.Provider>

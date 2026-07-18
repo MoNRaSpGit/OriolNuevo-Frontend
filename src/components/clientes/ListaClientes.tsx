@@ -1,0 +1,30 @@
+import type { Cliente } from '../../types/cliente'
+
+interface Props {
+  clientes: Cliente[]
+  cargando: boolean
+  clienteSeleccionadoId: number | null
+  onSeleccionar: (cliente: Cliente) => void
+}
+
+const ListaClientes = ({ clientes, cargando, clienteSeleccionadoId, onSeleccionar }: Props) => {
+  if (cargando) return <p className="text-muted">Cargando...</p>
+  if (clientes.length === 0) return <p className="text-muted">Todavía no hay clientes de alta.</p>
+
+  return (
+    <ul className="list-group cliente-lista">
+      {clientes.map((c) => (
+        <li
+          key={c.id}
+          className={`list-group-item cliente-item ${c.id === clienteSeleccionadoId ? 'active' : ''}`}
+          onClick={() => onSeleccionar(c)}
+        >
+          <div className="cliente-item-nombre">{c.nombre}</div>
+          <div className="cliente-item-deuda">Deuda: $ {Number(c.deuda).toFixed(2)}</div>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+export default ListaClientes

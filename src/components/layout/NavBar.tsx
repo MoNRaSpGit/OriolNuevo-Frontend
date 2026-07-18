@@ -3,7 +3,7 @@ import { useCarrito } from '../../context/CarritoContext'
 import { getHealth } from '../../services/health.service'
 import '../../styles/layout/navbar.scss'
 
-export type Vista = 'productos' | 'factura' | 'scanner'
+export type Vista = 'productos' | 'factura' | 'scanner' | 'clientes'
 
 interface Props {
   vista: Vista
@@ -44,6 +44,12 @@ const NavBar = ({ vista, setVista }: Props) => {
           onClick={() => setVista('scanner')}
         >
           Scanner
+        </button>
+        <button
+          className={vista === 'clientes' ? 'nav-link active' : 'nav-link'}
+          onClick={() => setVista('clientes')}
+        >
+          Clientes
         </button>
         {vista === 'factura' && (
           <button className="nav-link" onClick={() => window.print()}>
