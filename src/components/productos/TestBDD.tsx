@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { API_BASE_URL } from '../../config/api'
 
 interface ProductoBDD {
   id: number
@@ -17,7 +18,7 @@ const TestBDD = () => {
     setError('')
     setProductos(null)
     try {
-      const res = await fetch('/api/productos')
+      const res = await fetch(`${API_BASE_URL}/api/productos`)
       if (!res.ok) throw new Error('Respuesta no OK del backend')
       const data = await res.json()
       setProductos(data)

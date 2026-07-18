@@ -1,5 +1,6 @@
 import { useRef, useState, type FormEvent } from 'react'
 import { useCarrito } from '../../context/CarritoContext'
+import { API_BASE_URL } from '../../config/api'
 import '../../css/Scanner.css'
 
 interface ProductoBackend {
@@ -22,7 +23,7 @@ const Scanner = () => {
     if (!codigoBarra.trim()) return
     setMensaje(null)
     try {
-      const res = await fetch(`/api/productos/codigo/${encodeURIComponent(codigoBarra.trim())}`)
+      const res = await fetch(`${API_BASE_URL}/api/productos/codigo/${encodeURIComponent(codigoBarra.trim())}`)
       if (res.status === 404) {
         setMensaje({ tipo: 'no-encontrado', texto: `No se encontró ningún producto con el código ${codigoBarra}.` })
         return

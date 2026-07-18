@@ -3,6 +3,7 @@ import { CarritoProvider, useCarrito } from './context/CarritoContext'
 import Productos from './components/productos/Productos'
 import Factura from './components/factura/Factura'
 import Scanner from './components/scanner/Scanner'
+import { API_BASE_URL } from './config/api'
 import './App.css'
 
 type Vista = 'productos' | 'factura' | 'scanner'
@@ -12,7 +13,7 @@ function NavBar({ vista, setVista }: { vista: Vista; setVista: (v: Vista) => voi
   const [apiStatus, setApiStatus] = useState<'checking' | 'ok' | 'error'>('checking')
 
   useEffect(() => {
-    fetch('/api/health')
+    fetch(`${API_BASE_URL}/api/health`)
       .then((res) => res.json())
       .then((data) => setApiStatus(data.status === 'ok' ? 'ok' : 'error'))
       .catch(() => setApiStatus('error'))
