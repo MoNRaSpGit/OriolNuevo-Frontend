@@ -1,0 +1,89 @@
+@use '../variables' as v;
+
+.panel-tarjetas {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.panel-tarjeta {
+  background-color: v.$color-white;
+  border: 1px solid v.$color-border-light;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+}
+
+.panel-tarjeta-titulo {
+  font-size: 0.85rem;
+  color: v.$color-text-muted;
+  margin-bottom: 8px;
+}
+
+.panel-tarjeta-valor {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: v.$color-success;
+}
+
+.panel-negativo {
+  color: v.$color-danger;
+}
+
+.panel-caja {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  max-width: 800px;
+}
+
+.panel-caja-cambio {
+  background-color: v.$color-white;
+  border: 1px solid v.$color-border-light;
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.panel-cambio-row {
+  display: flex;
+  gap: 10px;
+
+  input {
+    flex: 1;
+  }
+}
+
+.panel-caja-total {
+  background-color: v.$color-bg-gray;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+}
+
+.panel-caja-total-label {
+  font-size: 0.9rem;
+  color: v.$color-text-muted;
+  margin-bottom: 6px;
+}
+
+.panel-caja-total-valor {
+  font-size: 2rem;
+  font-weight: bold;
+  color: v.$color-primary;
+}
+
+.panel-caja-formula {
+  font-size: 0.75rem;
+  color: v.$color-text-secondary;
+  margin-top: 6px;
+}
+
+@media (max-width: 900px) {
+  .panel-tarjetas {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .panel-caja {
+    grid-template-columns: 1fr;
+  }
+}

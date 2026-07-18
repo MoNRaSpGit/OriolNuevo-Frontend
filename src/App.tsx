@@ -5,6 +5,8 @@ import Productos from './components/productos/Productos'
 import Factura from './components/factura/Factura'
 import Scanner from './components/scanner/Scanner'
 import Clientes from './components/clientes/Clientes'
+import Pagos from './components/pagos/Pagos'
+import PanelControl from './components/panel/PanelControl'
 
 function App() {
   const [vista, setVista] = useState<Vista>('productos')
@@ -16,6 +18,8 @@ function App() {
       {vista === 'factura' && <Factura />}
       {vista === 'scanner' && <Scanner />}
       {vista === 'clientes' && <Clientes />}
+      {vista === 'pagos' && <Pagos />}
+      {vista === 'panel' && <PanelControl />}
     </CarritoProvider>
   )
 }

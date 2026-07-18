@@ -1,0 +1,41 @@
+@use '../variables' as v;
+
+.pagos-form {
+  max-width: 400px;
+  margin-bottom: 24px;
+}
+
+.pagos-lista {
+  list-style: none;
+  padding: 0;
+  max-width: 600px;
+}
+
+.pagos-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 14px;
+  border: 1px solid v.$color-border-light;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  background-color: v.$color-white;
+}
+
+.pagos-item-detalle {
+  font-weight: bold;
+  flex-grow: 1;
+}
+
+.pagos-item-fecha {
+  font-size: 0.85rem;
+  color: v.$color-text-muted;
+}
+
+.pagos-item-valor {
+  font-weight: bold;
+  color: v.$color-danger;
+  min-width: 90px;
+  text-align: right;
+}

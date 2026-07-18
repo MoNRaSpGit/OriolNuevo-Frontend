@@ -2,10 +2,9 @@ import { useEffect, useState } from 'react'
 import { getClientes } from '../../services/clientes.service'
 import { registrarVentaCredito, registrarVentaContado } from '../../services/ventas.service'
 import type { ProductoBoleta } from '../../context/CarritoContext'
-import type { Cliente, ItemVenta } from '../../types/cliente'
+import type { Cliente } from '../../types/cliente'
+import type { ItemVenta, MetodoPago } from '../../types/venta'
 import '../../styles/scanner/modal.scss'
-
-type MetodoPago = 'efectivo' | 'tarjeta' | 'credito'
 
 interface Props {
   productos: ProductoBoleta[]
@@ -62,10 +61,16 @@ const CheckoutModal = ({ productos, totalPesos, totalDolares, onCancelar, onConf
       return
     }
 
-    // Efectivo o tarjeta: no queda a nombre de ningún cliente, pero igual descuenta stock.
+    // Efectivo o tarjeta: no queda a nombre de ningún cliente, pero si queda
+    // registrada en el panel de control y descuenta stock igual.
     setGuardando(true)
     try {
-      await registrarVentaContado(items)
+      await registrarVentaContado({
+        metodo_pago: metodo as 'efectivo' | 'tarjeta',
+        total_pesos: totalPesos,
+        total_dolares: totalDolares,
+        items,
+      })
       onConfirmado()
     } catch {
       setError('No se pudo registrar la venta. Probá de nuevo.')

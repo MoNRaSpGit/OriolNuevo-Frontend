@@ -1,5 +1,6 @@
 import { API_BASE_URL } from '../config/api'
-import type { Cliente, VentaCredito } from '../types/cliente'
+import type { Cliente } from '../types/cliente'
+import type { Venta } from '../types/venta'
 
 export async function getClientes(): Promise<Cliente[]> {
   const res = await fetch(`${API_BASE_URL}/api/clientes`)
@@ -17,7 +18,7 @@ export async function crearCliente(nombre: string, telefono?: string): Promise<C
   return res.json()
 }
 
-export async function getHistorialCliente(clienteId: number): Promise<VentaCredito[]> {
+export async function getHistorialCliente(clienteId: number): Promise<Venta[]> {
   const res = await fetch(`${API_BASE_URL}/api/clientes/${clienteId}/historial`)
   if (!res.ok) throw new Error('No se pudo obtener el historial')
   return res.json()

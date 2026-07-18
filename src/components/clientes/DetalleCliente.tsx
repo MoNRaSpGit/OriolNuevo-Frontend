@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { getHistorialCliente } from '../../services/clientes.service'
-import type { Cliente, ItemVenta, VentaCredito } from '../../types/cliente'
+import type { Cliente } from '../../types/cliente'
+import type { ItemVenta, Venta } from '../../types/venta'
 
 const formatearFecha = (fechaIso: string) => {
   const fecha = new Date(fechaIso)
@@ -23,7 +24,7 @@ const formatearItems = (detalleJson: string) => {
 }
 
 const DetalleCliente = ({ cliente }: { cliente: Cliente }) => {
-  const [historial, setHistorial] = useState<VentaCredito[]>([])
+  const [historial, setHistorial] = useState<Venta[]>([])
   const [cargando, setCargando] = useState(true)
   const [error, setError] = useState('')
 
