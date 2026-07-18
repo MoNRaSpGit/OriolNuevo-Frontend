@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react'
 import { CarritoProvider, useCarrito } from './context/CarritoContext'
 import Productos from './components/productos/Productos'
 import Factura from './components/factura/Factura'
+import Scanner from './components/scanner/Scanner'
 import './App.css'
 
-type Vista = 'productos' | 'factura'
+type Vista = 'productos' | 'factura' | 'scanner'
 
 function NavBar({ vista, setVista }: { vista: Vista; setVista: (v: Vista) => void }) {
   const { productosSeleccionados } = useCarrito()
@@ -36,6 +37,12 @@ function NavBar({ vista, setVista }: { vista: Vista; setVista: (v: Vista) => voi
             <span className="badge">{productosSeleccionados.length}</span>
           )}
         </button>
+        <button
+          className={vista === 'scanner' ? 'nav-link active' : 'nav-link'}
+          onClick={() => setVista('scanner')}
+        >
+          Scanner
+        </button>
         {vista === 'factura' && (
           <button className="nav-link" onClick={() => window.print()}>
             Imprimir
@@ -57,7 +64,9 @@ function App() {
   return (
     <CarritoProvider>
       <NavBar vista={vista} setVista={setVista} />
-      {vista === 'productos' ? <Productos /> : <Factura />}
+      {vista === 'productos' && <Productos />}
+      {vista === 'factura' && <Factura />}
+      {vista === 'scanner' && <Scanner />}
     </CarritoProvider>
   )
 }

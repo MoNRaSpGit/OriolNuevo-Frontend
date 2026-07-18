@@ -1,0 +1,19 @@
+.scanner-form {
+  display: flex;
+  gap: 10px;
+  max-width: 500px;
+  margin-bottom: 24px;
+}
+
+.scanner-input {
+  font-size: 1.1rem;
+}
+
+.scanner-resultado {
+  max-width: 500px;
+}
+
+.scanner-card {
+  border-radius: 15px;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+}
