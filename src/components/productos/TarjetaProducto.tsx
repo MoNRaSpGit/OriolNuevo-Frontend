@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { FaFileInvoice, FaPlus, FaMinus } from 'react-icons/fa'
 import { useCarrito } from '../../context/CarritoContext'
-import type { ProductoDemo } from '../../data/productosDemo'
+import type { Producto } from '../../types/producto'
 import '../../styles/productos/tarjeta-producto.scss'
 
 const LIMITE_PRODUCTOS = 8
 
-const TarjetaProducto = ({ producto }: { producto: ProductoDemo }) => {
+const TarjetaProducto = ({ producto }: { producto: Producto }) => {
   const { productosSeleccionados, addOrUpdateProduct, updateProductQuantity, removeProduct } = useCarrito()
   const enBoleta = productosSeleccionados.find((p) => p.codigo === producto.id)
   const cantidad = enBoleta?.cantidad ?? 0
@@ -18,7 +18,14 @@ const TarjetaProducto = ({ producto }: { producto: ProductoDemo }) => {
       setAviso(`Has alcanzado el límite de ${LIMITE_PRODUCTOS} productos.`)
       return
     }
-    addOrUpdateProduct(producto)
+    addOrUpdateProduct({
+      id: producto.id,
+      name: producto.name,
+      description: producto.description,
+      price: parseFloat(producto.price),
+      currency: producto.currency,
+      image: producto.image,
+    })
   }
 
   const incrementarCantidad = () => {
@@ -51,6 +58,9 @@ const TarjetaProducto = ({ producto }: { producto: ProductoDemo }) => {
             <p className="card-text fw-bold">
               {producto.currency === 'USD' ? 'U$' : '$'}
               {producto.price}
+            </p>
+            <p className="card-text text-muted" style={{ fontSize: '0.8rem' }}>
+              Stock: {producto.stock}
             </p>
           </div>
 
