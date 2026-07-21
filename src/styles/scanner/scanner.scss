@@ -2,19 +2,20 @@
 
 .scanner-form {
   display: flex;
+  align-items: flex-start;
   gap: 10px;
-  max-width: 500px;
+  max-width: 560px;
   margin-bottom: 20px;
+}
+
+.scanner-busqueda {
+  position: relative;
+  flex-grow: 1;
 }
 
 .scanner-input {
   font-size: 1.1rem;
-}
-
-.scanner-busqueda-nombre {
-  position: relative;
-  max-width: 500px;
-  margin-bottom: 20px;
+  width: 100%;
 }
 
 .scanner-resultados-nombre {
