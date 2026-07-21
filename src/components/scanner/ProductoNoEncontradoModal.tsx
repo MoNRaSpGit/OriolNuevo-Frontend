@@ -45,8 +45,8 @@ const ProductoNoEncontradoModal = ({ codigoBarra, onCancelar, onGuardado }: Prop
         stock: stockNum,
       })
       onGuardado(producto)
-    } catch {
-      setError('No se pudo guardar el producto. Probá de nuevo.')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'No se pudo guardar el producto. Probá de nuevo.')
       setGuardando(false)
     }
   }

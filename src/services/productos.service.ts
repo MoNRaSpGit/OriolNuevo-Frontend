@@ -33,6 +33,9 @@ export async function crearProducto(producto: NuevoProducto): Promise<Producto> 
     method: 'POST',
     body: JSON.stringify({ ...producto, image: '', description: '' }),
   })
-  if (!res.ok) throw new Error('No se pudo crear el producto')
+  if (!res.ok) {
+    const data = await res.json().catch(() => null)
+    throw new Error(data?.error || 'No se pudo crear el producto')
+  }
   return res.json()
 }
