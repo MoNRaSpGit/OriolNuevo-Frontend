@@ -14,6 +14,12 @@ export async function getProductoPorCodigoBarra(codigoBarra: string): Promise<Pr
   return res.json()
 }
 
+export async function buscarProductosPorNombre(query: string): Promise<Producto[]> {
+  const res = await apiFetch(`/api/productos/buscar?q=${encodeURIComponent(query)}`)
+  if (!res.ok) throw new Error('No se pudo buscar productos')
+  return res.json()
+}
+
 export interface NuevoProducto {
   name: string
   price: number

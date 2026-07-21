@@ -1,6 +1,6 @@
-import { useRef, useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { useCarrito } from '../../context/CarritoContext'
-import { getProductoPorCodigoBarra } from '../../services/productos.service'
+import { getProductoPorCodigoBarra, buscarProductosPorNombre } from '../../services/productos.service'
 import ProductoNoEncontradoModal from './ProductoNoEncontradoModal'
 import CheckoutModal from './CheckoutModal'
 import type { Producto } from '../../types/producto'
@@ -13,7 +13,25 @@ const Scanner = () => {
   const [codigoNoEncontrado, setCodigoNoEncontrado] = useState<string | null>(null)
   const [mostrarCheckout, setMostrarCheckout] = useState(false)
   const [ventaConfirmada, setVentaConfirmada] = useState(false)
+  const [nombreQuery, setNombreQuery] = useState('')
+  const [resultadosNombre, setResultadosNombre] = useState<Producto[]>([])
+  const [buscandoNombre, setBuscandoNombre] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (nombreQuery.trim().length < 2) {
+      setResultadosNombre([])
+      return
+    }
+    setBuscandoNombre(true)
+    const timeoutId = setTimeout(() => {
+      buscarProductosPorNombre(nombreQuery.trim())
+        .then(setResultadosNombre)
+        .catch(() => setResultadosNombre([]))
+        .finally(() => setBuscandoNombre(false))
+    }, 300)
+    return () => clearTimeout(timeoutId)
+  }, [nombreQuery])
 
   const agregarAlCarrito = (producto: Producto) => {
     addOrUpdateProduct({
@@ -63,6 +81,12 @@ const Scanner = () => {
     inputRef.current?.focus()
   }
 
+  const handleSeleccionarPorNombre = (producto: Producto) => {
+    agregarAlCarrito(producto)
+    setNombreQuery('')
+    setResultadosNombre([])
+  }
+
   const handleVentaConfirmada = () => {
     vaciarCarrito()
     setMostrarCheckout(false)
@@ -97,6 +121,33 @@ const Scanner = () => {
           Buscar
         </button>
       </form>
+
+      <div className="scanner-busqueda-nombre">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="...o buscá por nombre del producto"
+          value={nombreQuery}
+          onChange={(e) => setNombreQuery(e.target.value)}
+        />
+        {buscandoNombre && <p className="text-muted mb-0 mt-1">Buscando...</p>}
+        {resultadosNombre.length > 0 && (
+          <ul className="scanner-resultados-nombre">
+            {resultadosNombre.map((producto) => (
+              <li key={producto.id} onClick={() => handleSeleccionarPorNombre(producto)}>
+                <span className="scanner-resultado-nombre">{producto.name}</span>
+                <span className="scanner-resultado-precio">
+                  {producto.currency === 'USD' ? 'U$' : '$'}
+                  {producto.price}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+        {!buscandoNombre && nombreQuery.trim().length >= 2 && resultadosNombre.length === 0 && (
+          <p className="text-muted mb-0 mt-1">Sin resultados.</p>
+        )}
+      </div>
 
       {error && <div className="alert alert-danger">{error}</div>}
       {ventaConfirmada && <div className="alert alert-success">Venta confirmada correctamente.</div>}
