@@ -1,5 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { getPagos, crearPago } from '../../services/pagos.service'
+import { mensajeDeError } from '../../utils/errores'
 import type { Pago } from '../../types/pago'
 import '../../styles/pagos/pagos.scss'
 
@@ -25,7 +26,7 @@ const Pagos = () => {
     setCargando(true)
     getPagos()
       .then(setPagos)
-      .catch(() => setError('No se pudo cargar la lista de pagos.'))
+      .catch((err) => setError(mensajeDeError(err, 'No se pudo cargar la lista de pagos.')))
       .finally(() => setCargando(false))
   }
 
@@ -52,8 +53,8 @@ const Pagos = () => {
       setPagos((prev) => [nuevo as Pago, ...prev])
       setValor('')
       setDetalle('')
-    } catch {
-      setError('No se pudo guardar el pago.')
+    } catch (err) {
+      setError(mensajeDeError(err, 'No se pudo guardar el pago.'))
     } finally {
       setGuardando(false)
     }

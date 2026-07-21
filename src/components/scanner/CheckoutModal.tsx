@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { getClientes } from '../../services/clientes.service'
 import { registrarVentaCredito, registrarVentaContado } from '../../services/ventas.service'
+import { mensajeDeError } from '../../utils/errores'
 import type { ProductoBoleta } from '../../context/CarritoContext'
 import type { Cliente } from '../../types/cliente'
 import type { ItemVenta, MetodoPago } from '../../types/venta'
@@ -25,7 +26,7 @@ const CheckoutModal = ({ productos, totalPesos, totalDolares, onCancelar, onConf
     if (metodo === 'credito') {
       getClientes()
         .then(setClientes)
-        .catch(() => setError('No se pudo cargar la lista de clientes.'))
+        .catch((err) => setError(mensajeDeError(err, 'No se pudo cargar la lista de clientes.')))
     }
   }, [metodo])
 
@@ -54,8 +55,8 @@ const CheckoutModal = ({ productos, totalPesos, totalDolares, onCancelar, onConf
           items,
         })
         onConfirmado()
-      } catch {
-        setError('No se pudo registrar la venta. Probá de nuevo.')
+      } catch (err) {
+        setError(mensajeDeError(err, 'No se pudo registrar la venta. Probá de nuevo.'))
         setGuardando(false)
       }
       return
@@ -72,8 +73,8 @@ const CheckoutModal = ({ productos, totalPesos, totalDolares, onCancelar, onConf
         items,
       })
       onConfirmado()
-    } catch {
-      setError('No se pudo registrar la venta. Probá de nuevo.')
+    } catch (err) {
+      setError(mensajeDeError(err, 'No se pudo registrar la venta. Probá de nuevo.'))
       setGuardando(false)
     }
   }

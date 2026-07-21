@@ -1,4 +1,4 @@
-import { apiFetch } from './apiClient'
+import { apiFetch, errorDeRespuesta } from './apiClient'
 import type { ItemVenta } from '../types/venta'
 
 export interface NuevaVentaCredito {
@@ -20,7 +20,7 @@ export async function registrarVentaCredito(venta: NuevaVentaCredito): Promise<v
     method: 'POST',
     body: JSON.stringify(venta),
   })
-  if (!res.ok) throw new Error('No se pudo registrar la venta')
+  if (!res.ok) throw new Error(await errorDeRespuesta(res, 'No se pudo registrar la venta'))
 }
 
 export async function registrarVentaContado(venta: NuevaVentaContado): Promise<void> {
@@ -28,5 +28,5 @@ export async function registrarVentaContado(venta: NuevaVentaContado): Promise<v
     method: 'POST',
     body: JSON.stringify(venta),
   })
-  if (!res.ok) throw new Error('No se pudo registrar la venta')
+  if (!res.ok) throw new Error(await errorDeRespuesta(res, 'No se pudo registrar la venta'))
 }

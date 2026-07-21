@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getPanelHoy, actualizarCambio } from '../../services/panel.service'
+import { mensajeDeError } from '../../utils/errores'
 import type { PanelHoy, TotalPorMoneda } from '../../types/panel'
 import '../../styles/panel/panel.scss'
 
@@ -23,7 +24,7 @@ const PanelControl = () => {
         setCambioInput(String(data.cambio))
         setError('')
       })
-      .catch(() => setError('No se pudo cargar el panel.'))
+      .catch((err) => setError(mensajeDeError(err, 'No se pudo cargar el panel.')))
   }
 
   useEffect(() => {
@@ -41,8 +42,8 @@ const PanelControl = () => {
     try {
       await actualizarCambio(valor)
       cargarPanel()
-    } catch {
-      setError('No se pudo actualizar el cambio.')
+    } catch (err) {
+      setError(mensajeDeError(err, 'No se pudo actualizar el cambio.'))
     } finally {
       setGuardando(false)
     }

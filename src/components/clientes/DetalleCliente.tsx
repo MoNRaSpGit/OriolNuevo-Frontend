@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getHistorialCliente } from '../../services/clientes.service'
+import { mensajeDeError } from '../../utils/errores'
 import type { Cliente } from '../../types/cliente'
 import type { ItemVenta, Venta } from '../../types/venta'
 
@@ -35,7 +36,7 @@ const DetalleCliente = ({ cliente }: { cliente: Cliente }) => {
         setHistorial(data)
         setError('')
       })
-      .catch(() => setError('No se pudo cargar el historial.'))
+      .catch((err) => setError(mensajeDeError(err, 'No se pudo cargar el historial.')))
       .finally(() => setCargando(false))
   }, [cliente.id])
 

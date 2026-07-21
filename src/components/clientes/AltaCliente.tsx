@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { crearCliente } from '../../services/clientes.service'
+import { mensajeDeError } from '../../utils/errores'
 import type { Cliente } from '../../types/cliente'
 
 const AltaCliente = ({ onCreado }: { onCreado: (cliente: Cliente) => void }) => {
@@ -21,8 +22,8 @@ const AltaCliente = ({ onCreado }: { onCreado: (cliente: Cliente) => void }) => 
       onCreado(cliente)
       setNombre('')
       setTelefono('')
-    } catch {
-      setError('No se pudo crear el cliente.')
+    } catch (err) {
+      setError(mensajeDeError(err, 'No se pudo crear el cliente.'))
     } finally {
       setGuardando(false)
     }

@@ -3,6 +3,7 @@ import { useCarrito } from '../../context/CarritoContext'
 import { getProductoPorCodigoBarra, buscarProductosPorNombre } from '../../services/productos.service'
 import ProductoNoEncontradoModal from './ProductoNoEncontradoModal'
 import CheckoutModal from './CheckoutModal'
+import { mensajeDeError } from '../../utils/errores'
 import type { Producto } from '../../types/producto'
 import '../../styles/scanner/scanner.scss'
 
@@ -61,8 +62,8 @@ const Scanner = () => {
       agregarAlCarrito(producto)
       setQuery('')
       inputRef.current?.focus()
-    } catch {
-      setError('No se pudo conectar con el backend.')
+    } catch (err) {
+      setError(mensajeDeError(err, 'No se pudo conectar con el backend.'))
       setQuery('')
       inputRef.current?.focus()
     }

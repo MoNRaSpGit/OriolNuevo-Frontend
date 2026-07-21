@@ -1,22 +1,22 @@
-import { apiFetch } from './apiClient'
+import { apiFetch, errorDeRespuesta } from './apiClient'
 import type { Producto } from '../types/producto'
 
 export async function getProductos(): Promise<Producto[]> {
   const res = await apiFetch('/api/productos')
-  if (!res.ok) throw new Error('No se pudo obtener la lista de productos')
+  if (!res.ok) throw new Error(await errorDeRespuesta(res, 'No se pudo obtener la lista de productos'))
   return res.json()
 }
 
 export async function getProductoPorCodigoBarra(codigoBarra: string): Promise<Producto | null> {
   const res = await apiFetch(`/api/productos/codigo/${encodeURIComponent(codigoBarra)}`)
   if (res.status === 404) return null
-  if (!res.ok) throw new Error('No se pudo buscar el producto')
+  if (!res.ok) throw new Error(await errorDeRespuesta(res, 'No se pudo buscar el producto'))
   return res.json()
 }
 
 export async function buscarProductosPorNombre(query: string): Promise<Producto[]> {
   const res = await apiFetch(`/api/productos/buscar?q=${encodeURIComponent(query)}`)
-  if (!res.ok) throw new Error('No se pudo buscar productos')
+  if (!res.ok) throw new Error(await errorDeRespuesta(res, 'No se pudo buscar productos'))
   return res.json()
 }
 
@@ -33,9 +33,6 @@ export async function crearProducto(producto: NuevoProducto): Promise<Producto> 
     method: 'POST',
     body: JSON.stringify({ ...producto, image: '', description: '' }),
   })
-  if (!res.ok) {
-    const data = await res.json().catch(() => null)
-    throw new Error(data?.error || 'No se pudo crear el producto')
-  }
+  if (!res.ok) throw new Error(await errorDeRespuesta(res, 'No se pudo crear el producto'))
   return res.json()
 }
