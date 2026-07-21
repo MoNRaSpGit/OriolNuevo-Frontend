@@ -10,7 +10,7 @@ import '../../styles/scanner/scanner.scss'
 const esSoloDigitos = (texto: string) => /^\d+$/.test(texto.trim())
 
 const Scanner = () => {
-  const { productosSeleccionados, addOrUpdateProduct, vaciarCarrito } = useCarrito()
+  const { productosSeleccionados, addOrUpdateProduct, removeProduct, vaciarCarrito } = useCarrito()
   const [query, setQuery] = useState('')
   const [error, setError] = useState('')
   const [codigoNoEncontrado, setCodigoNoEncontrado] = useState<string | null>(null)
@@ -178,6 +178,14 @@ const Scanner = () => {
                 {p.currency === 'USD' ? 'U$' : '$'}
                 {p.total.toFixed(2)}
               </div>
+              <button
+                type="button"
+                className="scanner-item-quitar"
+                onClick={() => removeProduct(p.codigo)}
+                aria-label={`Quitar ${p.name}`}
+              >
+                ×
+              </button>
             </div>
           ))}
 
