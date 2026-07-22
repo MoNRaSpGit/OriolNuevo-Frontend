@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react'
 import { getPanelHoy, actualizarCambio } from '../../services/panel.service'
 import { mensajeDeError } from '../../utils/errores'
+import EditarCambioModal from './EditarCambioModal'
 import type { PanelHoy, TotalPorMoneda } from '../../types/panel'
 import '../../styles/panel/panel.scss'
+
+const CANTIDAD_MOVIMIENTOS_VISIBLES = 3
 
 const formatearMoneda = (total: TotalPorMoneda) => {
   const partes: string[] = []
@@ -30,15 +33,15 @@ const formatearFechaHoy = () =>
 
 const PanelControl = () => {
   const [panel, setPanel] = useState<PanelHoy | null>(null)
-  const [cambioInput, setCambioInput] = useState('')
-  const [guardando, setGuardando] = useState(false)
   const [error, setError] = useState('')
+  const [editandoCambio, setEditandoCambio] = useState(false)
+  const [verTodosMovimientos, setVerTodosMovimientos] = useState(false)
+  const [detalleAbierto, setDetalleAbierto] = useState<number | null>(null)
 
   const cargarPanel = () => {
     getPanelHoy()
       .then((data) => {
         setPanel(data)
-        setCambioInput(String(data.cambio))
         setError('')
       })
       .catch((err) => setError(mensajeDeError(err, 'No se pudo cargar el panel.')))
@@ -48,22 +51,10 @@ const PanelControl = () => {
     cargarPanel()
   }, [])
 
-  const handleGuardarCambio = async () => {
-    const valor = parseFloat(cambioInput)
-    if (Number.isNaN(valor) || valor < 0) {
-      setError('Ingresá un valor de cambio válido.')
-      return
-    }
-    setError('')
-    setGuardando(true)
-    try {
-      await actualizarCambio(valor)
-      cargarPanel()
-    } catch (err) {
-      setError(mensajeDeError(err, 'No se pudo actualizar el cambio.'))
-    } finally {
-      setGuardando(false)
-    }
+  const handleGuardarCambio = async (valor: number) => {
+    await actualizarCambio(valor)
+    setEditandoCambio(false)
+    cargarPanel()
   }
 
   if (!panel) {
@@ -74,6 +65,10 @@ const PanelControl = () => {
       </div>
     )
   }
+
+  const movimientosVisibles = verTodosMovimientos
+    ? panel.movimientos
+    : panel.movimientos.slice(0, CANTIDAD_MOVIMIENTOS_VISIBLES)
 
   return (
     <div className="container mt-4 panel-container">
@@ -96,24 +91,13 @@ const PanelControl = () => {
       <section className="panel-section">
         <h4 className="panel-section-title">Caja diaria</h4>
         <div className="panel-tarjetas">
-          <div className="panel-metric panel-metric--form">
-            <label className="panel-metric-titulo" htmlFor="panel-plata-inicial">
-              Caja inicial
-            </label>
-            <div className="panel-cambio-row">
-              <input
-                id="panel-plata-inicial"
-                type="number"
-                step="0.01"
-                min="0"
-                className="form-control"
-                value={cambioInput}
-                onChange={(e) => setCambioInput(e.target.value)}
-              />
-              <button className="btn btn-outline-primary" onClick={handleGuardarCambio} disabled={guardando}>
-                {guardando ? 'Guardando...' : 'Guardar'}
-              </button>
-            </div>
+          <div
+            className="panel-metric panel-metric--editable"
+            onDoubleClick={() => setEditandoCambio(true)}
+            title="Doble click para editar"
+          >
+            <div className="panel-metric-titulo">Caja inicial</div>
+            <div className="panel-metric-valor">$ {panel.cambio.toFixed(2)}</div>
           </div>
 
           <div className="panel-metric panel-metric--highlight">
@@ -163,32 +147,78 @@ const PanelControl = () => {
         </div>
       </section>
 
-      {/* 3. Movimientos */}
+      {/* 3. Movimientos: solo tipo + monto por fila; "Detalle" despliega
+          producto y fecha/hora (a la izquierda, separados por puntos del
+          monto a la derecha), igual al patrón de LaClaudia. */}
       <section className="panel-section">
         <h4 className="panel-section-title">Movimientos</h4>
         {panel.movimientos.length === 0 ? (
           <p className="text-muted">Todavía no hay movimientos hoy.</p>
         ) : (
-          <ul className="panel-movimientos">
-            {panel.movimientos.map((m, i) => (
-              <li key={i} className="panel-movimiento">
-                <span className={`panel-movimiento-tipo panel-movimiento-tipo--${m.tipo}`}>
-                  {m.tipo === 'venta' ? 'Venta' : 'Pago'}
-                </span>
-                <span className="panel-movimiento-descripcion">
-                  {m.descripcion}
-                  {m.cantidad ? ` x${m.cantidad}` : ''}
-                </span>
-                <span className={m.tipo === 'pago' ? 'panel-movimiento-monto panel-monto-menos' : 'panel-movimiento-monto panel-monto-mas'}>
-                  {m.tipo === 'pago' ? '− ' : '+ '}
-                  {m.currency === 'USD' ? 'U$' : '$'} {m.monto.toFixed(2)}
-                </span>
-                <span className="panel-movimiento-fecha">{formatearFechaHora(m.fecha)}</span>
-              </li>
-            ))}
-          </ul>
+          <>
+            <ul className="panel-movimientos">
+              {movimientosVisibles.map((m, i) => {
+                const abierto = detalleAbierto === i
+                return (
+                  <li key={i} className="panel-movimiento">
+                    <div className="panel-movimiento-fila">
+                      <span className={`panel-movimiento-tipo panel-movimiento-tipo--${m.tipo}`}>
+                        {m.tipo === 'venta' ? 'Venta' : 'Pago'}
+                      </span>
+                      <span className={m.tipo === 'pago' ? 'panel-movimiento-monto panel-monto-menos' : 'panel-movimiento-monto panel-monto-mas'}>
+                        {m.tipo === 'pago' ? '− ' : '+ '}
+                        {m.currency === 'USD' ? 'U$' : '$'} {m.monto.toFixed(2)}
+                      </span>
+                      <button
+                        type="button"
+                        className="panel-movimiento-detalle-btn"
+                        onClick={() => setDetalleAbierto(abierto ? null : i)}
+                      >
+                        {abierto ? 'Ocultar detalle' : 'Detalle'}
+                      </button>
+                    </div>
+
+                    {abierto && (
+                      <div className="panel-movimiento-detalle">
+                        <span className="panel-movimiento-detalle-izquierda">
+                          <span className="panel-movimiento-detalle-producto">
+                            {m.descripcion}
+                            {m.cantidad ? ` x${m.cantidad}` : ''}
+                          </span>
+                          <span className="panel-movimiento-detalle-fecha">{formatearFechaHora(m.fecha)}</span>
+                        </span>
+                        <span className="panel-movimiento-detalle-puntos" />
+                        <span className={m.tipo === 'pago' ? 'panel-movimiento-detalle-valor panel-monto-menos' : 'panel-movimiento-detalle-valor panel-monto-mas'}>
+                          {m.tipo === 'pago' ? '− ' : '+ '}
+                          {m.currency === 'USD' ? 'U$' : '$'} {m.monto.toFixed(2)}
+                        </span>
+                      </div>
+                    )}
+                  </li>
+                )
+              })}
+            </ul>
+
+            {panel.movimientos.length > CANTIDAD_MOVIMIENTOS_VISIBLES && (
+              <button
+                type="button"
+                className="btn btn-outline-secondary panel-movimientos-vermas"
+                onClick={() => setVerTodosMovimientos((v) => !v)}
+              >
+                {verTodosMovimientos ? 'Ver menos' : `Ver más (${panel.movimientos.length - CANTIDAD_MOVIMIENTOS_VISIBLES})`}
+              </button>
+            )}
+          </>
         )}
       </section>
+
+      {editandoCambio && (
+        <EditarCambioModal
+          valorActual={panel.cambio}
+          onCancelar={() => setEditandoCambio(false)}
+          onGuardar={handleGuardarCambio}
+        />
+      )}
     </div>
   )
 }
