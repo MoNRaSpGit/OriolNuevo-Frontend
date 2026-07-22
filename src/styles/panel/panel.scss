@@ -250,8 +250,10 @@
   flex-shrink: 0;
 }
 
-.panel-movimientos-vermas {
-  margin-top: 12px;
+.panel-movimientos-vermas-fila {
+  display: flex;
+  justify-content: flex-end;
+  padding: 4px 12px 0;
 }
 
 @media (max-width: 900px) {

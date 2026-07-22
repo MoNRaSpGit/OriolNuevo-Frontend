@@ -198,13 +198,15 @@ const PanelControl = () => {
             </ul>
 
             {panel.movimientos.length > CANTIDAD_MOVIMIENTOS_VISIBLES && (
-              <button
-                type="button"
-                className="btn btn-outline-secondary panel-movimientos-vermas"
-                onClick={() => setVerTodosMovimientos((v) => !v)}
-              >
-                {verTodosMovimientos ? 'Ver menos' : `Ver más (${panel.movimientos.length - CANTIDAD_MOVIMIENTOS_VISIBLES})`}
-              </button>
+              <div className="panel-movimientos-vermas-fila">
+                <button
+                  type="button"
+                  className="panel-movimiento-detalle-btn"
+                  onClick={() => setVerTodosMovimientos((v) => !v)}
+                >
+                  {verTodosMovimientos ? 'Ver menos' : `Ver más (${panel.movimientos.length - CANTIDAD_MOVIMIENTOS_VISIBLES})`}
+                </button>
+              </div>
             )}
           </>
         )}
