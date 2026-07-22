@@ -103,7 +103,7 @@ const PanelControl = () => {
           <div className="panel-metric panel-metric--highlight">
             <div className="panel-metric-titulo">Ventas del día</div>
             <div className="panel-metric-valor">$ {panel.ventasDelDia.toFixed(2)}</div>
-            <div className="panel-metric-nota">Efectivo + Tarjeta + Crédito, en pesos equivalentes</div>
+            <div className="panel-metric-nota">Solo efectivo (plata real en caja), en pesos equivalentes</div>
           </div>
 
           <div className="panel-metric">
@@ -148,8 +148,7 @@ const PanelControl = () => {
       </section>
 
       {/* 3. Movimientos: solo tipo + monto por fila; "Detalle" despliega
-          producto y fecha/hora (a la izquierda, separados por puntos del
-          monto a la derecha), igual al patrón de LaClaudia. */}
+          una mini tarjeta con fecha/hora arriba y producto debajo. */}
       <section className="panel-section">
         <h4 className="panel-section-title">Movimientos</h4>
         {panel.movimientos.length === 0 ? (
