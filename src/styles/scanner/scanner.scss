@@ -87,6 +87,26 @@
   box-shadow: v.$shadow-card;
 }
 
+.scanner-item-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 0 28px 10px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: v.$color-text-secondary;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+
+  .scanner-item-info {
+    text-align: left;
+  }
+}
+
+.scanner-header-spacer {
+  background-color: transparent;
+}
+
 .scanner-item-img {
   width: 80px;
   height: 80px;

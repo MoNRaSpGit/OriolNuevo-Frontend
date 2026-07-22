@@ -127,7 +127,6 @@ const Scanner = () => {
             type="text"
             autoFocus
             className="form-control scanner-input"
-            placeholder="Escaneá el código de barra o escribí el nombre del producto..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
@@ -158,6 +157,13 @@ const Scanner = () => {
         <p className="text-muted">Esperando lectura de código de barra...</p>
       ) : (
         <div className="scanner-lista">
+          <div className="scanner-item-header">
+            <span className="scanner-item-img scanner-header-spacer" />
+            <span className="scanner-item-info">Producto</span>
+            <span className="scanner-item-cantidad">Cant.</span>
+            <span className="scanner-item-total">Total</span>
+            <span className="scanner-item-quitar scanner-header-spacer" />
+          </div>
           {productosSeleccionados.map((p) => (
             <div className="scanner-item" key={p.codigo}>
               <div className="scanner-item-img">
