@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { useCarrito } from '../../context/CarritoContext'
+import { useToast } from '../../context/ToastContext'
 import { getProductoPorCodigoBarra, buscarProductosPorNombre } from '../../services/productos.service'
 import ProductoNoEncontradoModal from './ProductoNoEncontradoModal'
 import EditarProductoModal from './EditarProductoModal'
@@ -19,12 +20,12 @@ const Scanner = () => {
     actualizarDatosProducto,
     vaciarCarrito,
   } = useCarrito()
+  const { mostrarToast } = useToast()
   const [query, setQuery] = useState('')
   const [error, setError] = useState('')
   const [codigoNoEncontrado, setCodigoNoEncontrado] = useState<string | null>(null)
   const [productoEditando, setProductoEditando] = useState<number | null>(null)
   const [mostrarCheckout, setMostrarCheckout] = useState(false)
-  const [ventaConfirmada, setVentaConfirmada] = useState(false)
   const [resultadosNombre, setResultadosNombre] = useState<Producto[]>([])
   const [buscandoNombre, setBuscandoNombre] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -128,10 +129,9 @@ const Scanner = () => {
   const handleVentaConfirmada = () => {
     vaciarCarrito()
     setMostrarCheckout(false)
-    setVentaConfirmada(true)
+    mostrarToast('Venta confirmada correctamente.')
     setQuery('')
     inputRef.current?.focus()
-    setTimeout(() => setVentaConfirmada(false), 4000)
   }
 
   let totalPesos = 0
@@ -176,7 +176,6 @@ const Scanner = () => {
       </form>
 
       {error && <div className="alert alert-danger">{error}</div>}
-      {ventaConfirmada && <div className="alert alert-success">Venta confirmada correctamente.</div>}
 
       {productosSeleccionados.length === 0 ? (
         <p className="text-muted">Esperando lectura de código de barra...</p>

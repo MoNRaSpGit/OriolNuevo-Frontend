@@ -11,6 +11,15 @@ const formatearMoneda = (total: TotalPorMoneda) => {
   return partes.length > 0 ? partes.join(' + ') : '$ 0.00'
 }
 
+const formatearFechaHora = (fechaIso: string) =>
+  new Date(fechaIso).toLocaleString('es-UY', {
+    timeZone: 'America/Montevideo',
+    day: '2-digit',
+    month: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  })
+
 const PanelControl = () => {
   const [panel, setPanel] = useState<PanelHoy | null>(null)
   const [cambioInput, setCambioInput] = useState('')
@@ -65,52 +74,91 @@ const PanelControl = () => {
 
       {error && <div className="alert alert-danger">{error}</div>}
 
-      <div className="panel-tarjetas">
-        <div className="panel-tarjeta">
-          <div className="panel-tarjeta-titulo">Efectivo</div>
-          <div className="panel-tarjeta-valor">{formatearMoneda(panel.totalEfectivo)}</div>
-        </div>
-        <div className="panel-tarjeta">
-          <div className="panel-tarjeta-titulo">Tarjeta</div>
-          <div className="panel-tarjeta-valor">{formatearMoneda(panel.totalTarjeta)}</div>
-        </div>
-        <div className="panel-tarjeta">
-          <div className="panel-tarjeta-titulo">Crédito</div>
-          <div className="panel-tarjeta-valor">{formatearMoneda(panel.totalCredito)}</div>
-        </div>
-        <div className="panel-tarjeta">
-          <div className="panel-tarjeta-titulo">Pagos a proveedores</div>
-          <div className="panel-tarjeta-valor panel-negativo">- $ {panel.totalPagos.toFixed(2)}</div>
-        </div>
-      </div>
-
-      <div className="panel-caja">
-        <div className="panel-caja-cambio">
-          <label className="form-label">Cambio (dinero que queda de un día para otro)</label>
-          <div className="panel-cambio-row">
-            <input
-              type="number"
-              step="0.01"
-              min="0"
-              className="form-control"
-              value={cambioInput}
-              onChange={(e) => setCambioInput(e.target.value)}
-            />
-            <button className="btn btn-outline-primary btn-lg" onClick={handleGuardarCambio} disabled={guardando}>
-              {guardando ? 'Guardando...' : 'Guardar'}
-            </button>
+      <section className="panel-seccion">
+        <h4 className="panel-seccion-titulo">Tipo de pago</h4>
+        <div className="panel-tarjetas">
+          <div className="panel-tarjeta">
+            <div className="panel-tarjeta-titulo">Efectivo</div>
+            <div className="panel-tarjeta-valor">{formatearMoneda(panel.totalEfectivo)}</div>
+          </div>
+          <div className="panel-tarjeta">
+            <div className="panel-tarjeta-titulo">Tarjeta</div>
+            <div className="panel-tarjeta-valor">{formatearMoneda(panel.totalTarjeta)}</div>
+          </div>
+          <div className="panel-tarjeta">
+            <div className="panel-tarjeta-titulo">Crédito</div>
+            <div className="panel-tarjeta-valor">{formatearMoneda(panel.totalCredito)}</div>
           </div>
         </div>
+      </section>
 
-        <div className="panel-caja-total">
-          <div className="panel-caja-total-label">Caja (efectivo disponible)</div>
-          <div className="panel-caja-total-valor">$ {panel.caja.toFixed(2)}</div>
-          <div className="panel-caja-formula">
-            {panel.cambio.toFixed(2)} (cambio) + {panel.totalEfectivo.pesos.toFixed(2)} (efectivo) −{' '}
-            {panel.totalPagos.toFixed(2)} (pagos)
+      <section className="panel-seccion">
+        <h4 className="panel-seccion-titulo">Caja diaria</h4>
+        <div className="panel-caja">
+          <div className="panel-caja-cambio">
+            <label className="form-label">Plata inicial</label>
+            <div className="panel-cambio-row">
+              <input
+                type="number"
+                step="0.01"
+                min="0"
+                className="form-control"
+                value={cambioInput}
+                onChange={(e) => setCambioInput(e.target.value)}
+              />
+              <button className="btn btn-outline-primary btn-lg" onClick={handleGuardarCambio} disabled={guardando}>
+                {guardando ? 'Guardando...' : 'Guardar'}
+              </button>
+            </div>
+          </div>
+
+          <div className="panel-caja-total">
+            <div className="panel-caja-total-label">Ganancias</div>
+            <div className="panel-caja-total-valor">$ {panel.ganancias.toFixed(2)}</div>
+            <div className="panel-caja-formula">
+              (ventas del día − pagos) con un 30% descontado
+            </div>
+          </div>
+
+          <div className="panel-caja-total">
+            <div className="panel-caja-total-label">Caja (efectivo disponible)</div>
+            <div className="panel-caja-total-valor">$ {panel.caja.toFixed(2)}</div>
+            <div className="panel-caja-formula">
+              {panel.cambio.toFixed(2)} (plata inicial) + {panel.totalEfectivo.pesos.toFixed(2)} (efectivo) −{' '}
+              {panel.totalPagos.toFixed(2)} (pagos)
+            </div>
+          </div>
+
+          <div className="panel-tarjeta panel-caja-pagos">
+            <div className="panel-tarjeta-titulo">Pagos a proveedores</div>
+            <div className="panel-tarjeta-valor panel-negativo">- $ {panel.totalPagos.toFixed(2)}</div>
           </div>
         </div>
-      </div>
+      </section>
+
+      <section className="panel-seccion">
+        <h4 className="panel-seccion-titulo">Movimientos</h4>
+        {panel.movimientos.length === 0 ? (
+          <p className="text-muted">Todavía no hay movimientos hoy.</p>
+        ) : (
+          <ul className="panel-movimientos">
+            {panel.movimientos.map((m, i) => (
+              <li key={i} className={`panel-movimiento panel-movimiento--${m.tipo}`}>
+                <span className="panel-movimiento-tipo">{m.tipo === 'venta' ? 'Venta' : 'Pago'}</span>
+                <span className="panel-movimiento-descripcion">
+                  {m.descripcion}
+                  {m.cantidad ? ` x${m.cantidad}` : ''}
+                </span>
+                <span className="panel-movimiento-monto">
+                  {m.tipo === 'pago' ? '- ' : ''}
+                  {m.currency === 'USD' ? 'U$' : '$'} {m.monto.toFixed(2)}
+                </span>
+                <span className="panel-movimiento-fecha">{formatearFechaHora(m.fecha)}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
     </div>
   )
 }
