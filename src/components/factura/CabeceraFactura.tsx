@@ -16,9 +16,10 @@ export interface DatosFactura {
 interface Props {
   datosFactura: DatosFactura
   finalEnDolares: boolean
+  onEditar: () => void
 }
 
-const CabeceraFactura = ({ datosFactura, finalEnDolares }: Props) => {
+const CabeceraFactura = ({ datosFactura, finalEnDolares, onEditar }: Props) => {
   const monedaAMostrar = finalEnDolares ? 'USD' : datosFactura.moneda
 
   return (
@@ -35,7 +36,7 @@ const CabeceraFactura = ({ datosFactura, finalEnDolares }: Props) => {
         </div>
       </div>
 
-      <div className="header-box">
+      <div className="header-box" onClick={onEditar} role="button" title="Editar datos de la factura">
         <div className="header-row header-rut">RUT EMISOR: {datosFactura.rutEmisor}</div>
         <div className="header-row header-efacture">{datosFactura.eFacture}</div>
         <div className="header-multi">

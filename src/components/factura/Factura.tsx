@@ -4,6 +4,7 @@ import { getTasaDolar } from '../../services/config.service'
 import CabeceraFactura, { type DatosFactura } from './CabeceraFactura'
 import TablaProductoFactura from './TablaProductoFactura'
 import PieFactura from './PieFactura'
+import EditarDatosFacturaModal from './EditarDatosFacturaModal'
 import '../../styles/factura/factura.scss'
 import '../../styles/factura/logo.scss'
 import '../../styles/factura/dueno.scss'
@@ -28,7 +29,9 @@ const Factura = () => {
       .catch(() => setTasaDolar(TASA_DOLAR_RESPALDO))
   }, [])
 
-  const [datosFactura] = useState<DatosFactura>({
+  const [modalAbierto, setModalAbierto] = useState(false)
+
+  const [datosFactura, setDatosFactura] = useState<DatosFactura>({
     rutEmisor: '',
     eFacture: 'e-Factura',
     serie: 'A',
@@ -64,7 +67,11 @@ const Factura = () => {
 
   return (
     <div className="factura-container">
-      <CabeceraFactura datosFactura={datosFactura} finalEnDolares={finalEnDolares} />
+      <CabeceraFactura
+        datosFactura={datosFactura}
+        finalEnDolares={finalEnDolares}
+        onEditar={() => setModalAbierto(true)}
+      />
 
       <div className="linea-divisoria"></div>
 
@@ -82,6 +89,14 @@ const Factura = () => {
         setFinalEnDolares={setFinalEnDolares}
         tasaDolar={tasaDolar}
       />
+
+      {modalAbierto && (
+        <EditarDatosFacturaModal
+          datosFactura={datosFactura}
+          setDatosFactura={setDatosFactura}
+          onCerrar={() => setModalAbierto(false)}
+        />
+      )}
     </div>
   )
 }
