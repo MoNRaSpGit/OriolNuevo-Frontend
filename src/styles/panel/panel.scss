@@ -1,124 +1,134 @@
 @use '../variables' as v;
 
+// Paleta y medidas copiadas literalmente de tmp-laclaudia-front/src/styles/panel.css
+// (solo lectura de ese proyecto, nunca se modificó) para que el Panel de
+// Control de OrioNuevo tenga la misma identidad visual.
+
 // ----------------
 // HERO
 // ----------------
 .panel-hero {
   display: flex;
+  align-items: flex-start;
   justify-content: space-between;
-  align-items: center;
   flex-wrap: wrap;
   gap: 16px;
-  border-radius: v.$radius-lg;
-  background: linear-gradient(135deg, #ffffff 0%, #f4f8fd 100%);
+  border: 1px solid #dbe4ee;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #ffffff 0%, #f6fbff 100%);
   box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
-  padding: 24px 28px;
+  padding: 19px 21px;
   margin-bottom: 28px;
 }
 
 .panel-hero-kicker {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: v.$color-text-secondary;
+  letter-spacing: 0.06em;
+  color: #0f5132;
   margin-bottom: 4px;
 }
 
 .panel-hero-titulo {
-  font-size: 1.9rem;
+  font-size: 1.7rem;
   font-weight: 800;
   margin: 0;
 }
 
 .panel-hero-subtitulo {
-  color: v.$color-text-secondary;
-  font-size: 1rem;
+  color: #64748b;
+  font-size: 0.95rem;
   margin-top: 4px;
   text-transform: capitalize;
 }
 
 .panel-hero-estado {
+  border: 1px solid #2f5a3a;
   background-color: #1f3a28;
   color: #d1fae5;
   border-radius: 999px;
-  padding: 8px 18px;
+  padding: 5px 14px;
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
 // ----------------
 // SECCIONES
 // ----------------
 .panel-seccion {
-  margin-bottom: 36px;
+  margin-bottom: 32px;
 }
 
 .panel-seccion-titulo {
-  font-size: 1.15rem;
-  font-weight: 700;
-  margin-bottom: 16px;
-  color: v.$color-text-dark;
+  font-size: 1.05rem;
+  font-weight: 800;
+  margin-bottom: 14px;
+  color: #0f172a;
 }
 
 // ----------------
-// TARJETAS / MÉTRICAS
+// TARJETAS / MÉTRICAS (panel-metric-card-v2 de LaClaudia)
 // ----------------
 .panel-tarjetas {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 12px;
 }
 
 .panel-metric {
-  border: 1px solid v.$color-border-light;
-  border-radius: v.$radius-lg;
-  background: linear-gradient(170deg, #ffffff 0%, #f8fbff 100%);
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
-  padding: 22px;
-  text-align: center;
+  border: 1px solid #dbe2eb;
+  border-radius: 12px;
+  padding: 12px 13px;
+  background: #ffffff;
+  min-height: 108px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
 }
 
 .panel-metric-titulo {
-  font-size: 0.85rem;
-  font-weight: 700;
+  margin: 0 0 4px;
+  font-size: 0.76rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: v.$color-text-secondary;
-  margin-bottom: 10px;
-  display: block;
+  font-weight: 700;
+  color: #64748b;
 }
 
 .panel-metric-valor {
-  font-size: 1.5rem;
+  margin: 0;
+  font-size: 1.3rem;
   font-weight: 800;
-  color: v.$color-success;
+  color: #111827;
 }
 
 .panel-metric-valor--grande {
-  font-size: 2.1rem;
-  color: v.$color-primary;
+  font-size: 1.55rem;
 }
 
 .panel-metric-valor--negativo {
-  color: v.$color-danger;
+  color: #7f1d1d;
 }
 
 .panel-metric-nota {
-  font-size: 0.85rem;
-  color: v.$color-text-secondary;
-  margin-top: 8px;
+  margin-top: auto;
+  padding-top: 6px;
+  color: #64748b;
+  font-size: 0.78rem;
+  line-height: 1.25;
 }
 
 .panel-metric--highlight {
-  background: linear-gradient(150deg, #d8ebff 0%, #bfdfff 100%);
-  border-color: #9cc4ec;
+  border-color: #5f95cf;
+  background: linear-gradient(180deg, #d8ebff 0%, #bfdfff 100%);
+  box-shadow: 0 8px 18px rgba(28, 82, 140, 0.2);
 
   .panel-metric-titulo {
     color: #18467d;
   }
 
-  .panel-metric-valor--grande {
+  .panel-metric-valor {
     color: #0f3b6d;
   }
 
@@ -137,7 +147,7 @@
 .panel-caja {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  gap: 12px;
   max-width: 900px;
 }
 
@@ -152,12 +162,14 @@
 }
 
 // ----------------
-// MOVIMIENTOS
+// MOVIMIENTOS (panel-movement-row de LaClaudia: filas planas, sin card blanca)
 // ----------------
 .panel-movimientos {
   list-style: none;
   padding: 0;
   margin: 0;
+  display: grid;
+  gap: 8px;
   max-width: 1000px;
   max-height: 520px;
   overflow-y: auto;
@@ -166,59 +178,52 @@
 .panel-movimiento {
   display: flex;
   align-items: center;
-  gap: 18px;
-  padding: 14px 18px;
-  border: 1px solid v.$color-border-light;
-  border-radius: v.$radius-base;
-  margin-bottom: 10px;
-  background-color: v.$color-white;
-  box-shadow: v.$shadow-card;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #e8edf4;
+  border: 1px solid #c7d2e0;
 }
 
 .panel-movimiento-tipo {
   font-weight: 700;
-  min-width: 70px;
-  text-align: center;
-  text-transform: uppercase;
-  font-size: 0.78rem;
-  padding: 4px 10px;
-  border-radius: 999px;
+  min-width: 56px;
+  font-size: 0.85rem;
 }
 
 .panel-movimiento-tipo--venta {
-  background-color: #e8f5ee;
   color: #1e5b3e;
 }
 
 .panel-movimiento-tipo--pago {
-  background-color: #fff5f5;
   color: #7f1d1d;
 }
 
 .panel-movimiento-descripcion {
   flex-grow: 1;
   font-weight: 600;
+  color: #1f2937;
 }
 
 .panel-movimiento-monto {
-  font-weight: 700;
-  min-width: 100px;
+  font-weight: 800;
+  min-width: 90px;
   text-align: right;
 }
 
 .panel-monto-mas {
-  color: v.$color-success;
+  color: #1e5b3e;
 }
 
 .panel-monto-menos {
-  color: v.$color-danger;
+  color: #7f1d1d;
 }
 
 .panel-movimiento-fecha {
-  min-width: 110px;
+  min-width: 100px;
   text-align: right;
-  color: v.$color-text-secondary;
-  font-size: 0.9rem;
+  color: #526581;
+  font-size: 0.82rem;
 }
 
 @media (max-width: 900px) {
