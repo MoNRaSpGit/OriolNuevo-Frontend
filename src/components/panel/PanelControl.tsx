@@ -20,6 +20,14 @@ const formatearFechaHora = (fechaIso: string) =>
     minute: '2-digit',
   })
 
+const formatearFechaHoy = () =>
+  new Date().toLocaleDateString('es-UY', {
+    timeZone: 'America/Montevideo',
+    weekday: 'long',
+    day: '2-digit',
+    month: 'long',
+  })
+
 const PanelControl = () => {
   const [panel, setPanel] = useState<PanelHoy | null>(null)
   const [cambioInput, setCambioInput] = useState('')
@@ -69,25 +77,31 @@ const PanelControl = () => {
 
   return (
     <div className="container mt-4 panel-container">
-      <h2 className="mb-4">Panel de Control</h2>
-      <p className="text-muted">Totales del día de hoy</p>
+      <div className="panel-hero">
+        <div>
+          <div className="panel-hero-kicker">Caja de hoy</div>
+          <h2 className="panel-hero-titulo">Panel de Control</h2>
+          <div className="panel-hero-subtitulo">{formatearFechaHoy()}</div>
+        </div>
+        <div className="panel-hero-estado">Abierta</div>
+      </div>
 
       {error && <div className="alert alert-danger">{error}</div>}
 
       <section className="panel-seccion">
         <h4 className="panel-seccion-titulo">Tipo de pago</h4>
         <div className="panel-tarjetas">
-          <div className="panel-tarjeta">
-            <div className="panel-tarjeta-titulo">Efectivo</div>
-            <div className="panel-tarjeta-valor">{formatearMoneda(panel.totalEfectivo)}</div>
+          <div className="panel-metric">
+            <div className="panel-metric-titulo">Efectivo</div>
+            <div className="panel-metric-valor">{formatearMoneda(panel.totalEfectivo)}</div>
           </div>
-          <div className="panel-tarjeta">
-            <div className="panel-tarjeta-titulo">Tarjeta</div>
-            <div className="panel-tarjeta-valor">{formatearMoneda(panel.totalTarjeta)}</div>
+          <div className="panel-metric">
+            <div className="panel-metric-titulo">Tarjeta</div>
+            <div className="panel-metric-valor">{formatearMoneda(panel.totalTarjeta)}</div>
           </div>
-          <div className="panel-tarjeta">
-            <div className="panel-tarjeta-titulo">Crédito</div>
-            <div className="panel-tarjeta-valor">{formatearMoneda(panel.totalCredito)}</div>
+          <div className="panel-metric">
+            <div className="panel-metric-titulo">Crédito</div>
+            <div className="panel-metric-valor">{formatearMoneda(panel.totalCredito)}</div>
           </div>
         </div>
       </section>
@@ -95,10 +109,13 @@ const PanelControl = () => {
       <section className="panel-seccion">
         <h4 className="panel-seccion-titulo">Caja diaria</h4>
         <div className="panel-caja">
-          <div className="panel-caja-cambio">
-            <label className="form-label">Plata inicial</label>
+          <div className="panel-metric panel-metric--form">
+            <label className="panel-metric-titulo" htmlFor="panel-plata-inicial">
+              Plata inicial
+            </label>
             <div className="panel-cambio-row">
               <input
+                id="panel-plata-inicial"
                 type="number"
                 step="0.01"
                 min="0"
@@ -106,32 +123,30 @@ const PanelControl = () => {
                 value={cambioInput}
                 onChange={(e) => setCambioInput(e.target.value)}
               />
-              <button className="btn btn-outline-primary btn-lg" onClick={handleGuardarCambio} disabled={guardando}>
+              <button className="btn btn-outline-primary" onClick={handleGuardarCambio} disabled={guardando}>
                 {guardando ? 'Guardando...' : 'Guardar'}
               </button>
             </div>
           </div>
 
-          <div className="panel-caja-total">
-            <div className="panel-caja-total-label">Ganancias</div>
-            <div className="panel-caja-total-valor">$ {panel.ganancias.toFixed(2)}</div>
-            <div className="panel-caja-formula">
-              (ventas del día − pagos) con un 30% descontado
-            </div>
+          <div className="panel-metric panel-metric--highlight">
+            <div className="panel-metric-titulo">Ganancias</div>
+            <div className="panel-metric-valor panel-metric-valor--grande">$ {panel.ganancias.toFixed(2)}</div>
+            <div className="panel-metric-nota">(ventas del día − pagos) con un 30% descontado</div>
           </div>
 
-          <div className="panel-caja-total">
-            <div className="panel-caja-total-label">Caja (efectivo disponible)</div>
-            <div className="panel-caja-total-valor">$ {panel.caja.toFixed(2)}</div>
-            <div className="panel-caja-formula">
+          <div className="panel-metric">
+            <div className="panel-metric-titulo">Caja (efectivo disponible)</div>
+            <div className="panel-metric-valor panel-metric-valor--grande">$ {panel.caja.toFixed(2)}</div>
+            <div className="panel-metric-nota">
               {panel.cambio.toFixed(2)} (plata inicial) + {panel.totalEfectivo.pesos.toFixed(2)} (efectivo) −{' '}
               {panel.totalPagos.toFixed(2)} (pagos)
             </div>
           </div>
 
-          <div className="panel-tarjeta panel-caja-pagos">
-            <div className="panel-tarjeta-titulo">Pagos a proveedores</div>
-            <div className="panel-tarjeta-valor panel-negativo">- $ {panel.totalPagos.toFixed(2)}</div>
+          <div className="panel-metric">
+            <div className="panel-metric-titulo">Pagos a proveedores</div>
+            <div className="panel-metric-valor panel-metric-valor--negativo">- $ {panel.totalPagos.toFixed(2)}</div>
           </div>
         </div>
       </section>
@@ -143,14 +158,16 @@ const PanelControl = () => {
         ) : (
           <ul className="panel-movimientos">
             {panel.movimientos.map((m, i) => (
-              <li key={i} className={`panel-movimiento panel-movimiento--${m.tipo}`}>
-                <span className="panel-movimiento-tipo">{m.tipo === 'venta' ? 'Venta' : 'Pago'}</span>
+              <li key={i} className="panel-movimiento">
+                <span className={`panel-movimiento-tipo panel-movimiento-tipo--${m.tipo}`}>
+                  {m.tipo === 'venta' ? 'Venta' : 'Pago'}
+                </span>
                 <span className="panel-movimiento-descripcion">
                   {m.descripcion}
                   {m.cantidad ? ` x${m.cantidad}` : ''}
                 </span>
-                <span className="panel-movimiento-monto">
-                  {m.tipo === 'pago' ? '- ' : ''}
+                <span className={m.tipo === 'pago' ? 'panel-movimiento-monto panel-monto-menos' : 'panel-movimiento-monto panel-monto-mas'}>
+                  {m.tipo === 'pago' ? '− ' : '+ '}
                   {m.currency === 'USD' ? 'U$' : '$'} {m.monto.toFixed(2)}
                 </span>
                 <span className="panel-movimiento-fecha">{formatearFechaHora(m.fecha)}</span>

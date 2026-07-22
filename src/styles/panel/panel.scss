@@ -1,5 +1,55 @@
 @use '../variables' as v;
 
+// ----------------
+// HERO
+// ----------------
+.panel-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  border-radius: v.$radius-lg;
+  background: linear-gradient(135deg, #ffffff 0%, #f4f8fd 100%);
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+  padding: 24px 28px;
+  margin-bottom: 28px;
+}
+
+.panel-hero-kicker {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: v.$color-text-secondary;
+  margin-bottom: 4px;
+}
+
+.panel-hero-titulo {
+  font-size: 1.9rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.panel-hero-subtitulo {
+  color: v.$color-text-secondary;
+  font-size: 1rem;
+  margin-top: 4px;
+  text-transform: capitalize;
+}
+
+.panel-hero-estado {
+  background-color: #1f3a28;
+  color: #d1fae5;
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+// ----------------
+// SECCIONES
+// ----------------
 .panel-seccion {
   margin-bottom: 36px;
 }
@@ -11,94 +61,99 @@
   color: v.$color-text-dark;
 }
 
+// ----------------
+// TARJETAS / MÉTRICAS
+// ----------------
 .panel-tarjetas {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
 
-.panel-tarjeta {
-  background-color: v.$color-white;
+.panel-metric {
   border: 1px solid v.$color-border-light;
   border-radius: v.$radius-lg;
-  box-shadow: v.$shadow-card;
+  background: linear-gradient(170deg, #ffffff 0%, #f8fbff 100%);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
   padding: 22px;
   text-align: center;
 }
 
-.panel-tarjeta-titulo {
-  font-size: 0.95rem;
-  color: v.$color-text-muted;
+.panel-metric-titulo {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: v.$color-text-secondary;
   margin-bottom: 10px;
-  font-weight: 600;
+  display: block;
 }
 
-.panel-tarjeta-valor {
+.panel-metric-valor {
   font-size: 1.5rem;
-  font-weight: 700;
+  font-weight: 800;
   color: v.$color-success;
 }
 
-.panel-negativo {
+.panel-metric-valor--grande {
+  font-size: 2.1rem;
+  color: v.$color-primary;
+}
+
+.panel-metric-valor--negativo {
   color: v.$color-danger;
 }
 
+.panel-metric-nota {
+  font-size: 0.85rem;
+  color: v.$color-text-secondary;
+  margin-top: 8px;
+}
+
+.panel-metric--highlight {
+  background: linear-gradient(150deg, #d8ebff 0%, #bfdfff 100%);
+  border-color: #9cc4ec;
+
+  .panel-metric-titulo {
+    color: #18467d;
+  }
+
+  .panel-metric-valor--grande {
+    color: #0f3b6d;
+  }
+
+  .panel-metric-nota {
+    color: #2a5c8f;
+  }
+}
+
+.panel-metric--form {
+  text-align: left;
+}
+
+// ----------------
+// CAJA DIARIA (grid propio, 4 tarjetas)
+// ----------------
 .panel-caja {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  max-width: 860px;
-}
-
-.panel-caja-pagos {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.panel-caja-cambio {
-  background-color: v.$color-white;
-  border: 1px solid v.$color-border-light;
-  border-radius: v.$radius-lg;
-  box-shadow: v.$shadow-card;
-  padding: 22px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 900px;
 }
 
 .panel-cambio-row {
   display: flex;
   gap: 10px;
+  margin-top: 6px;
 
   input {
     flex: 1;
   }
 }
 
-.panel-caja-total {
-  background-color: v.$color-bg-gray;
-  border-radius: v.$radius-lg;
-  padding: 22px;
-  text-align: center;
-}
-
-.panel-caja-total-label {
-  font-size: 1rem;
-  color: v.$color-text-muted;
-  margin-bottom: 8px;
-  font-weight: 600;
-}
-
-.panel-caja-total-valor {
-  font-size: 2.4rem;
-  font-weight: 700;
-  color: v.$color-primary;
-}
-
-.panel-caja-formula {
-  font-size: 0.85rem;
-  color: v.$color-text-secondary;
-  margin-top: 8px;
-}
-
+// ----------------
+// MOVIMIENTOS
+// ----------------
 .panel-movimientos {
   list-style: none;
   padding: 0;
@@ -114,27 +169,30 @@
   gap: 18px;
   padding: 14px 18px;
   border: 1px solid v.$color-border-light;
-  border-left: 5px solid v.$color-border-medium;
   border-radius: v.$radius-base;
   margin-bottom: 10px;
   background-color: v.$color-white;
   box-shadow: v.$shadow-card;
 }
 
-.panel-movimiento--venta {
-  border-left-color: v.$color-success;
-}
-
-.panel-movimiento--pago {
-  border-left-color: v.$color-danger;
-}
-
 .panel-movimiento-tipo {
   font-weight: 700;
-  min-width: 60px;
+  min-width: 70px;
+  text-align: center;
   text-transform: uppercase;
-  font-size: 0.85rem;
-  color: v.$color-text-secondary;
+  font-size: 0.78rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.panel-movimiento-tipo--venta {
+  background-color: #e8f5ee;
+  color: #1e5b3e;
+}
+
+.panel-movimiento-tipo--pago {
+  background-color: #fff5f5;
+  color: #7f1d1d;
 }
 
 .panel-movimiento-descripcion {
@@ -148,11 +206,11 @@
   text-align: right;
 }
 
-.panel-movimiento--venta .panel-movimiento-monto {
+.panel-monto-mas {
   color: v.$color-success;
 }
 
-.panel-movimiento--pago .panel-movimiento-monto {
+.panel-monto-menos {
   color: v.$color-danger;
 }
 
@@ -169,5 +227,9 @@
   }
   .panel-caja {
     grid-template-columns: 1fr;
+  }
+  .panel-hero {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
