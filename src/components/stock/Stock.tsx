@@ -4,10 +4,10 @@ import { mensajeDeError } from '../../utils/errores'
 import type { Producto } from '../../types/producto'
 import '../../styles/stock/stock.scss'
 
-const STOCK_LIMITE_ROJO = 3
-const STOCK_LIMITE_AMARILLO = 6
+export const STOCK_LIMITE_ROJO = 3
+export const STOCK_LIMITE_AMARILLO = 6
 
-const nivelDeStock = (stock: number) => {
+export const nivelDeStock = (stock: number) => {
   if (stock <= STOCK_LIMITE_ROJO) return 'rojo'
   if (stock <= STOCK_LIMITE_AMARILLO) return 'amarillo'
   return null

@@ -1,4 +1,10 @@
 import { createContext, useContext, useState, type ReactNode } from 'react'
+import {
+  actualizarDatosEnLista,
+  addOrUpdateProductoEnLista,
+  removeProductoDeLista,
+  updateCantidadEnLista,
+} from './carritoLogica'
 
 export interface ProductoParaCarrito {
   id: number
@@ -35,61 +41,22 @@ export function CarritoProvider({ children }: { children: ReactNode }) {
   const [productosSeleccionados, setProductosSeleccionados] = useState<ProductoBoleta[]>([])
 
   const addOrUpdateProduct = (producto: ProductoParaCarrito) => {
-    setProductosSeleccionados((prev) => {
-      const existente = prev.find((p) => p.codigo === producto.id)
-      if (existente) {
-        return prev.map((p) =>
-          p.codigo === producto.id
-            ? {
-                ...p,
-                name: producto.name,
-                descripcion: producto.description,
-                precio: producto.price,
-                currency: producto.currency || 'UYU',
-                image: producto.image,
-                cantidad: p.cantidad + 1,
-                total: (p.cantidad + 1) * producto.price,
-              }
-            : p
-        )
-      }
-      return [
-        ...prev,
-        {
-          codigo: producto.id,
-          name: producto.name,
-          descripcion: producto.description,
-          precio: producto.price,
-          currency: producto.currency || 'UYU',
-          image: producto.image,
-          cantidad: 1,
-          total: producto.price,
-        },
-      ]
-    })
+    setProductosSeleccionados((prev) => addOrUpdateProductoEnLista(prev, producto))
   }
 
   const updateProductQuantity = (codigo: number, cantidad: number) => {
-    setProductosSeleccionados((prev) =>
-      prev.map((p) => (p.codigo === codigo ? { ...p, cantidad, total: cantidad * p.precio } : p))
-    )
+    setProductosSeleccionados((prev) => updateCantidadEnLista(prev, codigo, cantidad))
   }
 
   const removeProduct = (codigo: number) => {
-    setProductosSeleccionados((prev) => prev.filter((p) => p.codigo !== codigo))
+    setProductosSeleccionados((prev) => removeProductoDeLista(prev, codigo))
   }
 
   const actualizarDatosProducto = (
     codigo: number,
     datos: { name: string; precio: number; currency: 'UYU' | 'USD' }
   ) => {
-    setProductosSeleccionados((prev) =>
-      prev.map((p) =>
-        p.codigo === codigo
-          ? { ...p, name: datos.name, precio: datos.precio, currency: datos.currency, total: p.cantidad * datos.precio }
-          : p
-      )
-    )
+    setProductosSeleccionados((prev) => actualizarDatosEnLista(prev, codigo, datos))
   }
 
   const vaciarCarrito = () => {
