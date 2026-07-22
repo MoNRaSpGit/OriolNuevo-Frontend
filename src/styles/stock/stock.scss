@@ -1,0 +1,69 @@
+@use '../variables' as v;
+
+.stock-lista {
+  max-width: 720px;
+}
+
+.stock-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px 22px;
+  border: 1px solid v.$color-border-light;
+  border-left: 6px solid v.$color-border-light;
+  border-radius: v.$radius-base;
+  margin-bottom: 12px;
+  background-color: v.$color-white;
+  box-shadow: v.$shadow-card;
+}
+
+.stock-item--amarillo {
+  border-left-color: #e0a800;
+}
+
+.stock-item--rojo {
+  border-left-color: v.$color-danger;
+}
+
+.stock-item-nombre {
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+
+.stock-item-precio {
+  font-size: 0.95rem;
+  color: v.$color-text-secondary;
+}
+
+.stock-item-cantidad {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.stock-item-badge {
+  min-width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: v.$color-white;
+  background-color: v.$color-border-medium;
+}
+
+.stock-item--amarillo .stock-item-badge {
+  background-color: #e0a800;
+}
+
+.stock-item--rojo .stock-item-badge {
+  background-color: v.$color-danger;
+}
+
+.stock-item-label {
+  font-size: 0.9rem;
+  color: v.$color-text-secondary;
+}

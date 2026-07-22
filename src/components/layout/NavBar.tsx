@@ -7,12 +7,13 @@ import {
   FaMoneyBillWave,
   FaChartBar,
   FaUserCircle,
+  FaExclamationTriangle,
 } from 'react-icons/fa'
 import { useCarrito } from '../../context/CarritoContext'
 import { getHealth } from '../../services/health.service'
 import '../../styles/layout/navbar.scss'
 
-export type Vista = 'productos' | 'factura' | 'scanner' | 'clientes' | 'pagos' | 'panel'
+export type Vista = 'productos' | 'factura' | 'scanner' | 'clientes' | 'pagos' | 'panel' | 'stock'
 
 interface Props {
   vista: Vista
@@ -35,6 +36,7 @@ const TABS_MENU: Tab[] = [
   { vista: 'clientes', etiqueta: 'Clientes', icono: <FaUsers /> },
   { vista: 'pagos', etiqueta: 'Pagos', icono: <FaMoneyBillWave /> },
   { vista: 'panel', etiqueta: 'Panel', icono: <FaChartBar /> },
+  { vista: 'stock', etiqueta: 'Stock', icono: <FaExclamationTriangle /> },
 ]
 
 const NavBar = ({ vista, setVista }: Props) => {

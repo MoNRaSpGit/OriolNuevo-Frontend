@@ -7,6 +7,7 @@ import Scanner from './components/scanner/Scanner'
 import Clientes from './components/clientes/Clientes'
 import Pagos from './components/pagos/Pagos'
 import PanelControl from './components/panel/PanelControl'
+import Stock from './components/stock/Stock'
 
 function App() {
   const [vista, setVista] = useState<Vista>('scanner')
@@ -20,6 +21,7 @@ function App() {
       {vista === 'clientes' && <Clientes />}
       {vista === 'pagos' && <Pagos />}
       {vista === 'panel' && <PanelControl />}
+      {vista === 'stock' && <Stock />}
     </CarritoProvider>
   )
 }
