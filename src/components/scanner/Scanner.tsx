@@ -149,9 +149,6 @@ const Scanner = () => {
             <p className="text-muted mb-0 mt-1">Sin resultados.</p>
           )}
         </div>
-        <button type="submit" className="btn btn-primary btn-lg">
-          Buscar
-        </button>
       </form>
 
       {error && <div className="alert alert-danger">{error}</div>}

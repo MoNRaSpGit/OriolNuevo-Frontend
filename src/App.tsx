@@ -9,7 +9,7 @@ import Pagos from './components/pagos/Pagos'
 import PanelControl from './components/panel/PanelControl'
 
 function App() {
-  const [vista, setVista] = useState<Vista>('productos')
+  const [vista, setVista] = useState<Vista>('scanner')
 
   return (
     <CarritoProvider>
