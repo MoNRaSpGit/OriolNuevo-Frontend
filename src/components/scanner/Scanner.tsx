@@ -172,8 +172,8 @@ const Scanner = () => {
           <div className="scanner-item-header">
             <span className="scanner-item-img scanner-header-spacer" />
             <span className="scanner-item-info">Producto</span>
-            <span className="scanner-item-cantidad">Cant.</span>
             <span className="scanner-item-editar scanner-header-spacer" />
+            <span className="scanner-item-cantidad">Cant.</span>
             <span className="scanner-item-total">Total</span>
             <span className="scanner-item-quitar scanner-header-spacer" />
           </div>
@@ -189,7 +189,6 @@ const Scanner = () => {
                   {p.precio.toFixed(2)} c/u
                 </div>
               </div>
-              <div className="scanner-item-cantidad">x{p.cantidad}</div>
               <button
                 type="button"
                 className="scanner-item-editar"
@@ -198,6 +197,7 @@ const Scanner = () => {
               >
                 Editar
               </button>
+              <div className="scanner-item-cantidad">x{p.cantidad}</div>
               <div className="scanner-item-total">
                 {p.currency === 'USD' ? 'U$' : '$'}
                 {p.total.toFixed(2)}
