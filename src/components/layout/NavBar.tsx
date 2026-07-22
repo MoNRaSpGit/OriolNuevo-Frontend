@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   FaBoxOpen,
   FaFileInvoice,
@@ -7,6 +7,7 @@ import {
   FaMoneyBillWave,
   FaChartBar,
   FaPrint,
+  FaUserCircle,
 } from 'react-icons/fa'
 import { useCarrito } from '../../context/CarritoContext'
 import { getHealth } from '../../services/health.service'
@@ -19,10 +20,19 @@ interface Props {
   setVista: (v: Vista) => void
 }
 
-const TABS: { vista: Vista; etiqueta: string; icono: React.ReactNode }[] = [
-  { vista: 'productos', etiqueta: 'Productos', icono: <FaBoxOpen /> },
-  { vista: 'factura', etiqueta: 'Factura', icono: <FaFileInvoice /> },
+interface Tab {
+  vista: Vista
+  etiqueta: string
+  icono: React.ReactNode
+}
+
+const TABS_VISIBLES: Tab[] = [
   { vista: 'scanner', etiqueta: 'Scanner', icono: <FaBarcode /> },
+  { vista: 'factura', etiqueta: 'Factura', icono: <FaFileInvoice /> },
+]
+
+const TABS_MENU: Tab[] = [
+  { vista: 'productos', etiqueta: 'Productos', icono: <FaBoxOpen /> },
   { vista: 'clientes', etiqueta: 'Clientes', icono: <FaUsers /> },
   { vista: 'pagos', etiqueta: 'Pagos', icono: <FaMoneyBillWave /> },
   { vista: 'panel', etiqueta: 'Panel', icono: <FaChartBar /> },
@@ -31,12 +41,30 @@ const TABS: { vista: Vista; etiqueta: string; icono: React.ReactNode }[] = [
 const NavBar = ({ vista, setVista }: Props) => {
   const { productosSeleccionados } = useCarrito()
   const [apiStatus, setApiStatus] = useState<'checking' | 'ok' | 'error'>('checking')
+  const [menuAbierto, setMenuAbierto] = useState(false)
+  const menuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     getHealth()
       .then((ok) => setApiStatus(ok ? 'ok' : 'error'))
       .catch(() => setApiStatus('error'))
   }, [])
+
+  useEffect(() => {
+    if (!menuAbierto) return
+    const cerrarSiEsAfuera = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuAbierto(false)
+      }
+    }
+    document.addEventListener('mousedown', cerrarSiEsAfuera)
+    return () => document.removeEventListener('mousedown', cerrarSiEsAfuera)
+  }, [menuAbierto])
+
+  const irA = (v: Vista) => {
+    setVista(v)
+    setMenuAbierto(false)
+  }
 
   return (
     <nav className="app-navbar">
@@ -51,7 +79,7 @@ const NavBar = ({ vista, setVista }: Props) => {
       </div>
 
       <div className="app-navbar-links">
-        {TABS.map((tab) => (
+        {TABS_VISIBLES.map((tab) => (
           <button
             key={tab.vista}
             className={vista === tab.vista ? 'nav-link active' : 'nav-link'}
@@ -73,6 +101,33 @@ const NavBar = ({ vista, setVista }: Props) => {
             <span className="nav-link-texto">Imprimir</span>
           </button>
         )}
+
+        <div className="app-navbar-menu" ref={menuRef}>
+          <button
+            className={TABS_MENU.some((t) => t.vista === vista) ? 'nav-link active' : 'nav-link'}
+            onClick={() => setMenuAbierto((v) => !v)}
+            aria-label="Más opciones"
+          >
+            <span className="nav-link-icono">
+              <FaUserCircle />
+            </span>
+          </button>
+
+          {menuAbierto && (
+            <div className="app-navbar-dropdown">
+              {TABS_MENU.map((tab) => (
+                <button
+                  key={tab.vista}
+                  className={vista === tab.vista ? 'dropdown-item active' : 'dropdown-item'}
+                  onClick={() => irA(tab.vista)}
+                >
+                  <span className="nav-link-icono">{tab.icono}</span>
+                  <span>{tab.etiqueta}</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </nav>
   )

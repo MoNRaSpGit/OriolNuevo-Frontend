@@ -95,6 +95,54 @@
   color: v.$color-white;
 }
 
+.app-navbar-menu {
+  position: relative;
+  margin-left: auto;
+
+  .nav-link-icono {
+    font-size: 1.6rem;
+  }
+}
+
+.app-navbar-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 20;
+  min-width: 200px;
+  background-color: v.$color-white;
+  border-radius: v.$radius-base;
+  box-shadow: v.$shadow-card;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: none;
+  border: none;
+  color: v.$color-text-dark;
+  padding: 12px 16px;
+  border-radius: v.$radius-base;
+  cursor: pointer;
+  font-size: 1.05rem;
+  font-weight: 600;
+  text-align: left;
+
+  &:hover {
+    background-color: v.$color-bg-light;
+  }
+
+  &.active {
+    background-color: v.$color-primary;
+    color: v.$color-white;
+  }
+}
+
 @media print {
   .app-navbar {
     display: none !important;
