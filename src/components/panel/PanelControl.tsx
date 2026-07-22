@@ -180,14 +180,13 @@ const PanelControl = () => {
 
                     {abierto && (
                       <div className="panel-movimiento-detalle">
-                        <span className="panel-movimiento-detalle-izquierda">
+                        <div className="panel-movimiento-detalle-info">
+                          <span className="panel-movimiento-detalle-fecha">{formatearFechaHora(m.fecha)}</span>
                           <span className="panel-movimiento-detalle-producto">
                             {m.descripcion}
                             {m.cantidad ? ` x${m.cantidad}` : ''}
                           </span>
-                          <span className="panel-movimiento-detalle-fecha">{formatearFechaHora(m.fecha)}</span>
-                        </span>
-                        <span className="panel-movimiento-detalle-puntos" />
+                        </div>
                         <span className={m.tipo === 'pago' ? 'panel-movimiento-detalle-valor panel-monto-menos' : 'panel-movimiento-detalle-valor panel-monto-mas'}>
                           {m.tipo === 'pago' ? '− ' : '+ '}
                           {m.currency === 'USD' ? 'U$' : '$'} {m.monto.toFixed(2)}
