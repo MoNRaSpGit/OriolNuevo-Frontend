@@ -83,31 +83,35 @@ const CheckoutModal = ({ productos, totalPesos, totalDolares, onCancelar, onConf
     <div className="modal-overlay">
       <div className="modal-box">
         <h4>Confirmar compra</h4>
-        <p className="text-muted">
-          Total: {totalPesos > 0 && <strong>$ {totalPesos.toFixed(2)} </strong>}
-          {totalDolares > 0 && <strong>U$ {totalDolares.toFixed(2)}</strong>}
-        </p>
+
+        <div className="modal-total-destacado">
+          <span className="modal-total-label">Total a cobrar</span>
+          <span className="modal-total-valor">
+            {totalPesos > 0 && <span>$ {totalPesos.toFixed(2)}</span>}
+            {totalDolares > 0 && <span>U$ {totalDolares.toFixed(2)}</span>}
+          </span>
+        </div>
 
         <div className="mb-3">
           <label className="form-label">Método de pago</label>
           <div className="modal-metodo-pago">
             <button
               type="button"
-              className={metodo === 'efectivo' ? 'btn btn-primary' : 'btn btn-outline-secondary'}
+              className={`btn metodo-btn metodo-btn--efectivo ${metodo === 'efectivo' ? 'active' : ''}`}
               onClick={() => setMetodo('efectivo')}
             >
               Efectivo
             </button>
             <button
               type="button"
-              className={metodo === 'tarjeta' ? 'btn btn-primary' : 'btn btn-outline-secondary'}
+              className={`btn metodo-btn metodo-btn--tarjeta ${metodo === 'tarjeta' ? 'active' : ''}`}
               onClick={() => setMetodo('tarjeta')}
             >
               Tarjeta
             </button>
             <button
               type="button"
-              className={metodo === 'credito' ? 'btn btn-primary' : 'btn btn-outline-secondary'}
+              className={`btn metodo-btn metodo-btn--credito ${metodo === 'credito' ? 'active' : ''}`}
               onClick={() => setMetodo('credito')}
             >
               Crédito

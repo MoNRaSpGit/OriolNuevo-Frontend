@@ -46,12 +46,87 @@
   flex-shrink: 0;
 }
 
+.modal-total-destacado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: v.$color-bg-gray;
+  border-radius: v.$radius-lg;
+}
+
+.modal-total-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: v.$color-text-secondary;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.modal-total-valor {
+  display: flex;
+  gap: 14px;
+  font-size: 2rem;
+  font-weight: 800;
+  color: v.$color-success;
+}
+
 .modal-metodo-pago {
   display: flex;
   gap: 10px;
 
   .btn {
     flex: 1;
+  }
+}
+
+.metodo-btn {
+  border-width: 2px;
+  font-weight: 700;
+  background-color: transparent;
+}
+
+.metodo-btn--efectivo {
+  --bs-btn-color: #{v.$color-success};
+  --bs-btn-border-color: #{v.$color-success};
+  --bs-btn-hover-bg: rgba(30, 122, 52, 0.1);
+  --bs-btn-hover-color: #{v.$color-success};
+  --bs-btn-hover-border-color: #{v.$color-success};
+
+  &.active {
+    background-color: v.$color-success;
+    border-color: v.$color-success;
+    color: v.$color-white;
+  }
+}
+
+.metodo-btn--tarjeta {
+  --bs-btn-color: #{v.$color-primary};
+  --bs-btn-border-color: #{v.$color-primary};
+  --bs-btn-hover-bg: rgba(29, 95, 174, 0.1);
+  --bs-btn-hover-color: #{v.$color-primary};
+  --bs-btn-hover-border-color: #{v.$color-primary};
+
+  &.active {
+    background-color: v.$color-primary;
+    border-color: v.$color-primary;
+    color: v.$color-white;
+  }
+}
+
+.metodo-btn--credito {
+  --bs-btn-color: #b8860b;
+  --bs-btn-border-color: #b8860b;
+  --bs-btn-hover-bg: rgba(184, 134, 11, 0.1);
+  --bs-btn-hover-color: #b8860b;
+  --bs-btn-hover-border-color: #b8860b;
+
+  &.active {
+    background-color: #b8860b;
+    border-color: #b8860b;
+    color: v.$color-white;
   }
 }
 
