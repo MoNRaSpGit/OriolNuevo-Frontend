@@ -103,8 +103,10 @@
   }
 }
 
-.scanner-header-spacer {
+.scanner-item-header .scanner-header-spacer {
   background-color: transparent;
+  border-color: transparent;
+  color: transparent;
 }
 
 .scanner-item-img {
@@ -156,6 +158,22 @@
   min-width: 130px;
   text-align: right;
   color: v.$color-success;
+}
+
+.scanner-item-editar {
+  flex-shrink: 0;
+  padding: 8px 16px;
+  border: 1px solid v.$color-primary;
+  border-radius: v.$radius-base;
+  background-color: transparent;
+  color: v.$color-primary;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(29, 95, 174, 0.1);
+  }
 }
 
 .scanner-item-quitar {

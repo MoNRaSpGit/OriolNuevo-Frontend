@@ -36,3 +36,19 @@ export async function crearProducto(producto: NuevoProducto): Promise<Producto> 
   if (!res.ok) throw new Error(await errorDeRespuesta(res, 'No se pudo crear el producto'))
   return res.json()
 }
+
+export async function getProductoPorId(id: number): Promise<Producto | null> {
+  const res = await apiFetch(`/api/productos/${id}`)
+  if (res.status === 404) return null
+  if (!res.ok) throw new Error(await errorDeRespuesta(res, 'No se pudo obtener el producto'))
+  return res.json()
+}
+
+export async function actualizarProducto(id: number, producto: Omit<Producto, 'id' | 'price'> & { price: number }): Promise<Producto> {
+  const res = await apiFetch(`/api/productos/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(producto),
+  })
+  if (!res.ok) throw new Error(await errorDeRespuesta(res, 'No se pudo actualizar el producto'))
+  return res.json()
+}

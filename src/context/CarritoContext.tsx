@@ -25,6 +25,7 @@ interface CarritoContextValue {
   addOrUpdateProduct: (producto: ProductoParaCarrito) => void
   updateProductQuantity: (codigo: number, cantidad: number) => void
   removeProduct: (codigo: number) => void
+  actualizarDatosProducto: (codigo: number, datos: { name: string; precio: number; currency: 'UYU' | 'USD' }) => void
   vaciarCarrito: () => void
 }
 
@@ -69,6 +70,19 @@ export function CarritoProvider({ children }: { children: ReactNode }) {
     setProductosSeleccionados((prev) => prev.filter((p) => p.codigo !== codigo))
   }
 
+  const actualizarDatosProducto = (
+    codigo: number,
+    datos: { name: string; precio: number; currency: 'UYU' | 'USD' }
+  ) => {
+    setProductosSeleccionados((prev) =>
+      prev.map((p) =>
+        p.codigo === codigo
+          ? { ...p, name: datos.name, precio: datos.precio, currency: datos.currency, total: p.cantidad * datos.precio }
+          : p
+      )
+    )
+  }
+
   const vaciarCarrito = () => {
     setProductosSeleccionados([])
   }
@@ -80,6 +94,7 @@ export function CarritoProvider({ children }: { children: ReactNode }) {
         addOrUpdateProduct,
         updateProductQuantity,
         removeProduct,
+        actualizarDatosProducto,
         vaciarCarrito,
       }}
     >

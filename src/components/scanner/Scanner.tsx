@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { useCarrito } from '../../context/CarritoContext'
 import { getProductoPorCodigoBarra, buscarProductosPorNombre } from '../../services/productos.service'
 import ProductoNoEncontradoModal from './ProductoNoEncontradoModal'
+import EditarProductoModal from './EditarProductoModal'
 import CheckoutModal from './CheckoutModal'
 import { mensajeDeError } from '../../utils/errores'
 import type { Producto } from '../../types/producto'
@@ -10,10 +11,12 @@ import '../../styles/scanner/scanner.scss'
 const esSoloDigitos = (texto: string) => /^\d+$/.test(texto.trim())
 
 const Scanner = () => {
-  const { productosSeleccionados, addOrUpdateProduct, removeProduct, vaciarCarrito } = useCarrito()
+  const { productosSeleccionados, addOrUpdateProduct, removeProduct, actualizarDatosProducto, vaciarCarrito } =
+    useCarrito()
   const [query, setQuery] = useState('')
   const [error, setError] = useState('')
   const [codigoNoEncontrado, setCodigoNoEncontrado] = useState<string | null>(null)
+  const [productoEditando, setProductoEditando] = useState<number | null>(null)
   const [mostrarCheckout, setMostrarCheckout] = useState(false)
   const [ventaConfirmada, setVentaConfirmada] = useState(false)
   const [resultadosNombre, setResultadosNombre] = useState<Producto[]>([])
@@ -100,6 +103,15 @@ const Scanner = () => {
     inputRef.current?.focus()
   }
 
+  const handleProductoActualizado = (producto: Producto) => {
+    actualizarDatosProducto(producto.id, {
+      name: producto.name,
+      precio: parseFloat(producto.price),
+      currency: producto.currency,
+    })
+    setProductoEditando(null)
+  }
+
   const handleVentaConfirmada = () => {
     vaciarCarrito()
     setMostrarCheckout(false)
@@ -161,6 +173,7 @@ const Scanner = () => {
             <span className="scanner-item-img scanner-header-spacer" />
             <span className="scanner-item-info">Producto</span>
             <span className="scanner-item-cantidad">Cant.</span>
+            <span className="scanner-item-editar scanner-header-spacer" />
             <span className="scanner-item-total">Total</span>
             <span className="scanner-item-quitar scanner-header-spacer" />
           </div>
@@ -177,6 +190,14 @@ const Scanner = () => {
                 </div>
               </div>
               <div className="scanner-item-cantidad">x{p.cantidad}</div>
+              <button
+                type="button"
+                className="scanner-item-editar"
+                onClick={() => setProductoEditando(p.codigo)}
+                aria-label={`Editar ${p.name}`}
+              >
+                Editar
+              </button>
               <div className="scanner-item-total">
                 {p.currency === 'USD' ? 'U$' : '$'}
                 {p.total.toFixed(2)}
@@ -208,6 +229,14 @@ const Scanner = () => {
           codigoBarra={codigoNoEncontrado}
           onCancelar={handleCancelarModal}
           onGuardado={handleProductoGuardado}
+        />
+      )}
+
+      {productoEditando !== null && (
+        <EditarProductoModal
+          codigo={productoEditando}
+          onCancelar={() => setProductoEditando(null)}
+          onGuardado={handleProductoActualizado}
         />
       )}
 
