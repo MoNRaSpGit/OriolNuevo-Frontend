@@ -150,7 +150,18 @@ const PanelControl = () => {
       {/* 3. Movimientos: solo tipo + monto por fila; "Detalle" despliega
           una mini tarjeta con fecha/hora arriba y producto debajo. */}
       <section className="panel-section">
-        <h4 className="panel-section-title">Movimientos</h4>
+        <div className="panel-section-head">
+          <h4 className="panel-section-title">Movimientos</h4>
+          {panel.movimientos.length > CANTIDAD_MOVIMIENTOS_VISIBLES && (
+            <button
+              type="button"
+              className="panel-movimiento-detalle-btn"
+              onClick={() => setVerTodosMovimientos((v) => !v)}
+            >
+              {verTodosMovimientos ? 'Ver menos' : `Ver más (${panel.movimientos.length - CANTIDAD_MOVIMIENTOS_VISIBLES})`}
+            </button>
+          )}
+        </div>
         {panel.movimientos.length === 0 ? (
           <p className="text-muted">Todavía no hay movimientos hoy.</p>
         ) : (
@@ -196,18 +207,6 @@ const PanelControl = () => {
                 )
               })}
             </ul>
-
-            {panel.movimientos.length > CANTIDAD_MOVIMIENTOS_VISIBLES && (
-              <div className="panel-movimientos-vermas-fila">
-                <button
-                  type="button"
-                  className="panel-movimiento-detalle-btn"
-                  onClick={() => setVerTodosMovimientos((v) => !v)}
-                >
-                  {verTodosMovimientos ? 'Ver menos' : `Ver más (${panel.movimientos.length - CANTIDAD_MOVIMIENTOS_VISIBLES})`}
-                </button>
-              </div>
-            )}
           </>
         )}
       </section>
