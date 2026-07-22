@@ -6,7 +6,6 @@ import {
   FaUsers,
   FaMoneyBillWave,
   FaChartBar,
-  FaPrint,
   FaUserCircle,
 } from 'react-icons/fa'
 import { useCarrito } from '../../context/CarritoContext'
@@ -92,15 +91,6 @@ const NavBar = ({ vista, setVista }: Props) => {
             )}
           </button>
         ))}
-
-        {vista === 'factura' && (
-          <button className="nav-link nav-link-imprimir" onClick={() => window.print()}>
-            <span className="nav-link-icono">
-              <FaPrint />
-            </span>
-            <span className="nav-link-texto">Imprimir</span>
-          </button>
-        )}
 
         <div className="app-navbar-menu" ref={menuRef}>
           <button

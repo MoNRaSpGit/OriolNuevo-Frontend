@@ -71,3 +71,18 @@
   font-size: 20px;
   color: v.$color-danger;
 }
+
+.factura-imprimir-btn {
+  position: absolute;
+  right: 0;
+  bottom: -76px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+@media print {
+  .factura-imprimir-btn {
+    display: none !important;
+  }
+}

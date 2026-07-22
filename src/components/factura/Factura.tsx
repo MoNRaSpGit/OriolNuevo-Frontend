@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { FaPrint } from 'react-icons/fa'
 import { useCarrito } from '../../context/CarritoContext'
 import { getTasaDolar } from '../../services/config.service'
 import CabeceraFactura, { type DatosFactura } from './CabeceraFactura'
@@ -97,6 +98,10 @@ const Factura = () => {
           onCerrar={() => setModalAbierto(false)}
         />
       )}
+
+      <button className="btn btn-primary btn-lg factura-imprimir-btn" onClick={() => window.print()}>
+        <FaPrint /> Imprimir
+      </button>
     </div>
   )
 }

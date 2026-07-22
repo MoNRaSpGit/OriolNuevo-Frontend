@@ -172,7 +172,9 @@ const Scanner = () => {
           <div className="scanner-item-header">
             <span className="scanner-item-img scanner-header-spacer" />
             <span className="scanner-item-info">Producto</span>
-            <span className="scanner-item-editar scanner-header-spacer" />
+            <span className="scanner-item-editar-wrap">
+              <span className="scanner-item-editar scanner-header-spacer" />
+            </span>
             <span className="scanner-item-cantidad">Cant.</span>
             <span className="scanner-item-total">Total</span>
             <span className="scanner-item-quitar scanner-header-spacer" />
@@ -189,14 +191,16 @@ const Scanner = () => {
                   {p.precio.toFixed(2)} c/u
                 </div>
               </div>
-              <button
-                type="button"
-                className="scanner-item-editar"
-                onClick={() => setProductoEditando(p.codigo)}
-                aria-label={`Editar ${p.name}`}
-              >
-                Editar
-              </button>
+              <div className="scanner-item-editar-wrap">
+                <button
+                  type="button"
+                  className="scanner-item-editar"
+                  onClick={() => setProductoEditando(p.codigo)}
+                  aria-label={`Editar ${p.name}`}
+                >
+                  Editar
+                </button>
+              </div>
               <div className="scanner-item-cantidad">x{p.cantidad}</div>
               <div className="scanner-item-total">
                 {p.currency === 'USD' ? 'U$' : '$'}

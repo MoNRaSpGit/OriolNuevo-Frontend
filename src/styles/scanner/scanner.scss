@@ -131,8 +131,15 @@
 }
 
 .scanner-item-info {
-  flex-grow: 1;
+  flex: 1 1 0;
+  min-width: 0;
   text-align: left;
+}
+
+.scanner-item-editar-wrap {
+  flex: 1 1 0;
+  display: flex;
+  justify-content: center;
 }
 
 .scanner-item-nombre {
