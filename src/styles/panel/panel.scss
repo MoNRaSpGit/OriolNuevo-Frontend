@@ -54,13 +54,19 @@
 }
 
 // ----------------
-// SECCIONES
+// SECCIONES (panel-section de LaClaudia: contenedor propio con borde y
+// degradé, en vez de solo un título suelto sobre el fondo de la página)
 // ----------------
-.panel-seccion {
-  margin-bottom: 32px;
+.panel-section {
+  border: 1px solid #d6dde7;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #f8fafd 0%, #f4f7fb 100%);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+  padding: 16px 16px 18px;
+  margin-bottom: 24px;
 }
 
-.panel-seccion-titulo {
+.panel-section-title {
   font-size: 1.05rem;
   font-weight: 800;
   margin-bottom: 14px;
@@ -72,7 +78,7 @@
 // ----------------
 .panel-tarjetas {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
   gap: 12px;
 }
 
@@ -101,10 +107,6 @@
   font-size: 1.3rem;
   font-weight: 800;
   color: #111827;
-}
-
-.panel-metric-valor--grande {
-  font-size: 1.55rem;
 }
 
 .panel-metric-valor--negativo {
@@ -139,16 +141,6 @@
 
 .panel-metric--form {
   text-align: left;
-}
-
-// ----------------
-// CAJA DIARIA (grid propio, 4 tarjetas)
-// ----------------
-.panel-caja {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  max-width: 900px;
 }
 
 .panel-cambio-row {
@@ -229,9 +221,6 @@
 @media (max-width: 900px) {
   .panel-tarjetas {
     grid-template-columns: repeat(2, 1fr);
-  }
-  .panel-caja {
-    grid-template-columns: 1fr;
   }
   .panel-hero {
     flex-direction: column;

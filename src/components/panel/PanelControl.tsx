@@ -88,30 +88,17 @@ const PanelControl = () => {
 
       {error && <div className="alert alert-danger">{error}</div>}
 
-      <section className="panel-seccion">
-        <h4 className="panel-seccion-titulo">Tipo de pago</h4>
+      {/* 1. Caja diaria: mismo orden de tarjetas que "Caja diaria" en LaClaudia
+          (Caja inicial → Ventas del día destacada → Ganancia estimada →
+          Monto actual → Pagos realizados). No incluye la tarjeta de
+          "Comparación" de LaClaudia porque requiere datos históricos
+          (día anterior) que hoy no se calculan. */}
+      <section className="panel-section">
+        <h4 className="panel-section-title">Caja diaria</h4>
         <div className="panel-tarjetas">
-          <div className="panel-metric">
-            <div className="panel-metric-titulo">Efectivo</div>
-            <div className="panel-metric-valor">{formatearMoneda(panel.totalEfectivo)}</div>
-          </div>
-          <div className="panel-metric">
-            <div className="panel-metric-titulo">Tarjeta</div>
-            <div className="panel-metric-valor">{formatearMoneda(panel.totalTarjeta)}</div>
-          </div>
-          <div className="panel-metric">
-            <div className="panel-metric-titulo">Crédito</div>
-            <div className="panel-metric-valor">{formatearMoneda(panel.totalCredito)}</div>
-          </div>
-        </div>
-      </section>
-
-      <section className="panel-seccion">
-        <h4 className="panel-seccion-titulo">Caja diaria</h4>
-        <div className="panel-caja">
           <div className="panel-metric panel-metric--form">
             <label className="panel-metric-titulo" htmlFor="panel-plata-inicial">
-              Plata inicial
+              Caja inicial
             </label>
             <div className="panel-cambio-row">
               <input
@@ -130,29 +117,55 @@ const PanelControl = () => {
           </div>
 
           <div className="panel-metric panel-metric--highlight">
-            <div className="panel-metric-titulo">Ganancias</div>
-            <div className="panel-metric-valor panel-metric-valor--grande">$ {panel.ganancias.toFixed(2)}</div>
+            <div className="panel-metric-titulo">Ventas del día</div>
+            <div className="panel-metric-valor">$ {panel.ventasDelDia.toFixed(2)}</div>
+            <div className="panel-metric-nota">Efectivo + Tarjeta + Crédito, en pesos equivalentes</div>
+          </div>
+
+          <div className="panel-metric">
+            <div className="panel-metric-titulo">Ganancia estimada</div>
+            <div className="panel-metric-valor">$ {panel.ganancias.toFixed(2)}</div>
             <div className="panel-metric-nota">(ventas del día − pagos) con un 30% descontado</div>
           </div>
 
           <div className="panel-metric">
-            <div className="panel-metric-titulo">Caja (efectivo disponible)</div>
-            <div className="panel-metric-valor panel-metric-valor--grande">$ {panel.caja.toFixed(2)}</div>
+            <div className="panel-metric-titulo">Monto actual</div>
+            <div className="panel-metric-valor">$ {panel.caja.toFixed(2)}</div>
             <div className="panel-metric-nota">
-              {panel.cambio.toFixed(2)} (plata inicial) + {panel.totalEfectivo.pesos.toFixed(2)} (efectivo) −{' '}
+              {panel.cambio.toFixed(2)} (inicial) + {panel.totalEfectivo.pesos.toFixed(2)} (efectivo) −{' '}
               {panel.totalPagos.toFixed(2)} (pagos)
             </div>
           </div>
 
           <div className="panel-metric">
-            <div className="panel-metric-titulo">Pagos a proveedores</div>
+            <div className="panel-metric-titulo">Pagos realizados</div>
             <div className="panel-metric-valor panel-metric-valor--negativo">- $ {panel.totalPagos.toFixed(2)}</div>
           </div>
         </div>
       </section>
 
-      <section className="panel-seccion">
-        <h4 className="panel-seccion-titulo">Movimientos</h4>
+      {/* 2. Medios de cobro (equivalente a "Medios de cobro" en LaClaudia) */}
+      <section className="panel-section">
+        <h4 className="panel-section-title">Medios de cobro</h4>
+        <div className="panel-tarjetas">
+          <div className="panel-metric">
+            <div className="panel-metric-titulo">Efectivo</div>
+            <div className="panel-metric-valor">{formatearMoneda(panel.totalEfectivo)}</div>
+          </div>
+          <div className="panel-metric">
+            <div className="panel-metric-titulo">Tarjeta</div>
+            <div className="panel-metric-valor">{formatearMoneda(panel.totalTarjeta)}</div>
+          </div>
+          <div className="panel-metric">
+            <div className="panel-metric-titulo">Crédito</div>
+            <div className="panel-metric-valor">{formatearMoneda(panel.totalCredito)}</div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Movimientos */}
+      <section className="panel-section">
+        <h4 className="panel-section-title">Movimientos</h4>
         {panel.movimientos.length === 0 ? (
           <p className="text-muted">Todavía no hay movimientos hoy.</p>
         ) : (
