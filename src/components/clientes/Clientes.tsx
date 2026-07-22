@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getClientes } from '../../services/clientes.service'
+import { mensajeDeError } from '../../utils/errores'
 import type { Cliente } from '../../types/cliente'
 import AltaCliente from './AltaCliente'
 import ListaClientes from './ListaClientes'
@@ -15,7 +16,7 @@ const Clientes = () => {
   useEffect(() => {
     getClientes()
       .then(setClientes)
-      .catch(() => setError('No se pudo cargar la lista de clientes.'))
+      .catch((err) => setError(mensajeDeError(err, 'No se pudo cargar la lista de clientes.')))
       .finally(() => setCargando(false))
   }, [])
 

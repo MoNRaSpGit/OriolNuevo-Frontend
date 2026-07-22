@@ -3,29 +3,39 @@
 .clientes-columnas {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 24px;
   align-items: start;
 }
 
 .clientes-col {
   background-color: v.$color-white;
   border: 1px solid v.$color-border-light;
-  border-radius: 10px;
-  padding: 18px;
-  min-height: 300px;
+  border-radius: v.$radius-lg;
+  box-shadow: v.$shadow-card;
+  padding: 24px;
+  min-height: 320px;
 
   h5 {
-    margin-bottom: 16px;
+    margin-bottom: 20px;
+    font-size: 1.25rem;
   }
 }
 
 .cliente-lista {
-  max-height: 500px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 520px;
   overflow-y: auto;
 }
 
 .cliente-item {
   cursor: pointer;
+  padding: 16px 18px;
+  font-size: 1.05rem;
+  border-radius: v.$radius-base;
+  margin-bottom: 8px;
+  border: 1px solid v.$color-border-light;
 
   &.active {
     background-color: v.$color-primary;
@@ -35,16 +45,17 @@
 }
 
 .cliente-item-nombre {
-  font-weight: bold;
+  font-weight: 700;
+  font-size: 1.1rem;
 }
 
 .cliente-item-deuda {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
 }
 
 .cliente-deuda-total {
-  font-size: 1.2rem;
-  font-weight: bold;
+  font-size: 1.4rem;
+  font-weight: 700;
   color: v.$color-danger;
 }
 
@@ -54,8 +65,9 @@
 }
 
 .historial-item {
-  padding: 10px 0;
+  padding: 14px 0;
   border-bottom: 1px solid v.$color-border-light;
+  font-size: 1rem;
 
   &:last-child {
     border-bottom: none;
@@ -63,19 +75,19 @@
 }
 
 .historial-fecha {
-  font-weight: bold;
-  font-size: 0.9rem;
+  font-weight: 700;
+  font-size: 0.95rem;
 }
 
 .historial-detalle {
   color: v.$color-text-muted;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 .historial-total {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   color: v.$color-success;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 @media (max-width: 900px) {

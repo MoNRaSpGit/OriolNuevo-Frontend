@@ -96,7 +96,7 @@ const PanelControl = () => {
               value={cambioInput}
               onChange={(e) => setCambioInput(e.target.value)}
             />
-            <button className="btn btn-outline-primary" onClick={handleGuardarCambio} disabled={guardando}>
+            <button className="btn btn-outline-primary btn-lg" onClick={handleGuardarCambio} disabled={guardando}>
               {guardando ? 'Guardando...' : 'Guardar'}
             </button>
           </div>

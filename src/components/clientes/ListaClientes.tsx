@@ -12,11 +12,11 @@ const ListaClientes = ({ clientes, cargando, clienteSeleccionadoId, onSelecciona
   if (clientes.length === 0) return <p className="text-muted">Todavía no hay clientes de alta.</p>
 
   return (
-    <ul className="list-group cliente-lista">
+    <ul className="cliente-lista">
       {clientes.map((c) => (
         <li
           key={c.id}
-          className={`list-group-item cliente-item ${c.id === clienteSeleccionadoId ? 'active' : ''}`}
+          className={`cliente-item ${c.id === clienteSeleccionadoId ? 'active' : ''}`}
           onClick={() => onSeleccionar(c)}
         >
           <div className="cliente-item-nombre">{c.nombre}</div>

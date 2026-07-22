@@ -4,6 +4,14 @@
    FACTURA CONTAINER
    ---------------- */
 .factura-container {
+  // El rediseño general de la app subió el font-size de <html> para hacer
+  // todo mas grande y legible (adultos +50). La Factura tiene que mantener
+  // su formato pixel a pixel de antes, así que acá se neutraliza: esto es
+  // un valor absoluto en px (no relativo a la raíz), y como el font-size
+  // se hereda en valor calculado, todo lo que hay adentro que no fije su
+  // propio tamaño en rem vuelve a verse como si el bump global no existiera.
+  font-size: 16px;
+
   position: relative;
   height: 1073px;
   border: 2px solid #333;

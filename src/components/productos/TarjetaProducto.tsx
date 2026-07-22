@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { FaFileInvoice, FaPlus, FaMinus } from 'react-icons/fa'
+import { FaPlus, FaMinus } from 'react-icons/fa'
 import { useCarrito } from '../../context/CarritoContext'
 import type { Producto } from '../../types/producto'
 import '../../styles/productos/tarjeta-producto.scss'
@@ -42,26 +42,24 @@ const TarjetaProducto = ({ producto }: { producto: Producto }) => {
 
   return (
     <div className="col-md-4 mb-4">
-      <div className="card shadow-sm">
+      <div className="card producto-card">
         <div className="product-image d-flex align-items-center justify-content-center">
           {producto.image ? (
             <img src={producto.image} alt={producto.name} className="img-fluid" />
           ) : (
-            <span style={{ color: '#aaa' }}>Sin imagen</span>
+            <span className="producto-sin-imagen">Sin imagen</span>
           )}
         </div>
 
         <div className="card-body text-center">
           <div className="card-content">
             <h5 className="card-title">{producto.name}</h5>
-            <p className="card-text">{producto.description}</p>
+            {producto.description && <p className="card-text">{producto.description}</p>}
             <p className="card-text fw-bold">
               {producto.currency === 'USD' ? 'U$' : '$'}
               {producto.price}
             </p>
-            <p className="card-text text-muted" style={{ fontSize: '0.8rem' }}>
-              Stock: {producto.stock}
-            </p>
+            <p className="card-text producto-stock">Stock: {producto.stock}</p>
           </div>
 
           <div className="divisor-botones"></div>
@@ -78,12 +76,12 @@ const TarjetaProducto = ({ producto }: { producto: Producto }) => {
             </div>
           ) : (
             <div className="botones-container">
-              <button className="btn mi-boton-agregar" onClick={handleAgregar}>
-                <FaFileInvoice className="me-1" /> Agregar
+              <button className="btn btn-primary btn-lg w-100" onClick={handleAgregar}>
+                Agregar
               </button>
             </div>
           )}
-          {aviso && <p className="text-danger mt-2 mb-0" style={{ fontSize: '0.85rem' }}>{aviso}</p>}
+          {aviso && <p className="text-danger mt-2 mb-0 producto-aviso">{aviso}</p>}
         </div>
       </div>
     </div>

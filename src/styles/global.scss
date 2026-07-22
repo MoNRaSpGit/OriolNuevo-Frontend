@@ -1,0 +1,100 @@
+@use './variables' as v;
+
+// Base tipográfica pensada para adultos +50: texto grande, alto contraste,
+// pocos colores. Se apoya en que Bootstrap usa unidades rem, así que subir
+// el font-size del html escala proporcionalmente toda la UI (botones,
+// inputs, etc.) sin tener que tocar cada componente uno por uno.
+html {
+  font-size: 118%; // ~19px en vez de los 16px por defecto del navegador
+}
+
+body {
+  margin: 0;
+  background-color: v.$color-bg-page;
+  color: v.$color-text-dark;
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  color: v.$color-text-dark;
+}
+
+// --- Override puntual de Bootstrap: paleta + esquinas redondeadas + tamaños ---
+// Bootstrap 5.3 define el color de sus botones con variables propias por
+// clase (--bs-btn-bg, etc.) en vez de heredar de --bs-primary global, así
+// que se pisan directamente acá para que el cambio de color sea real.
+
+.btn {
+  font-weight: 600;
+}
+
+// Se excluye .btn-sm a propósito: lo usa el botón chico de "Eliminar" de
+// la Factura, y ese formato tiene que quedar igual que antes del rediseño.
+.btn:not(.btn-sm) {
+  --bs-btn-border-radius: #{v.$radius-base};
+  --bs-btn-padding-y: 0.6rem;
+  --bs-btn-padding-x: 1.25rem;
+}
+
+.btn-primary {
+  --bs-btn-bg: #{v.$color-primary};
+  --bs-btn-border-color: #{v.$color-primary};
+  --bs-btn-hover-bg: #{v.$color-primary-dark};
+  --bs-btn-hover-border-color: #{v.$color-primary-dark};
+  --bs-btn-active-bg: #{v.$color-primary-dark};
+  --bs-btn-active-border-color: #{v.$color-primary-dark};
+  --bs-btn-disabled-bg: #{v.$color-primary};
+  --bs-btn-disabled-border-color: #{v.$color-primary};
+}
+
+.btn-outline-primary {
+  --bs-btn-color: #{v.$color-primary};
+  --bs-btn-border-color: #{v.$color-primary};
+  --bs-btn-hover-bg: #{v.$color-primary};
+  --bs-btn-hover-border-color: #{v.$color-primary};
+}
+
+.btn-success {
+  --bs-btn-bg: #{v.$color-success};
+  --bs-btn-border-color: #{v.$color-success};
+}
+
+.btn-danger {
+  --bs-btn-bg: #{v.$color-danger};
+  --bs-btn-border-color: #{v.$color-danger};
+}
+
+.btn-outline-secondary {
+  --bs-btn-border-radius: #{v.$radius-base};
+}
+
+.form-control,
+.form-select {
+  border-radius: v.$radius-base;
+  padding: 0.6rem 0.9rem;
+  border-color: v.$color-border-medium;
+
+  &:focus {
+    border-color: v.$color-primary;
+    box-shadow: 0 0 0 0.2rem rgba(29, 95, 174, 0.18);
+  }
+}
+
+.alert {
+  border-radius: v.$radius-base;
+  font-weight: 500;
+}

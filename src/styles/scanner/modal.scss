@@ -3,20 +3,31 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(15, 23, 35, 0.55);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  padding: 16px;
 }
 
 .modal-box {
   background-color: v.$color-white;
-  border-radius: 12px;
-  padding: 24px;
+  border-radius: v.$radius-lg;
+  padding: 32px;
   width: 100%;
-  max-width: 420px;
-  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.25);
+  max-width: 460px;
+  box-shadow: 0px 16px 40px rgba(0, 0, 0, 0.28);
+
+  h4 {
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+  }
+
+  .form-label {
+    font-weight: 600;
+    font-size: 1.05rem;
+  }
 }
 
 .modal-precio-row {
@@ -31,13 +42,13 @@
 
 .modal-moneda-toggle {
   display: flex;
-  gap: 6px;
+  gap: 8px;
   flex-shrink: 0;
 }
 
 .modal-metodo-pago {
   display: flex;
-  gap: 8px;
+  gap: 10px;
 
   .btn {
     flex: 1;
@@ -47,6 +58,10 @@
 .modal-acciones {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
-  margin-top: 16px;
+  gap: 12px;
+  margin-top: 20px;
+
+  .btn {
+    font-size: 1.05rem;
+  }
 }

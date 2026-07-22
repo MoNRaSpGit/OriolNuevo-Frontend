@@ -149,7 +149,7 @@ const Scanner = () => {
             <p className="text-muted mb-0 mt-1">Sin resultados.</p>
           )}
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-primary btn-lg">
           Buscar
         </button>
       </form>
@@ -194,7 +194,7 @@ const Scanner = () => {
             {totalDolares > 0 && <div>Total U$: {totalDolares.toFixed(2)}</div>}
           </div>
 
-          <button className="btn btn-success mt-3" onClick={() => setMostrarCheckout(true)}>
+          <button className="btn btn-success btn-lg mt-3 w-100" onClick={() => setMostrarCheckout(true)}>
             Confirmar compra
           </button>
         </div>

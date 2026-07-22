@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css'
 import { getProductos } from '../../services/productos.service'
 import type { Producto } from '../../types/producto'
 import TarjetaProducto from './TarjetaProducto'
