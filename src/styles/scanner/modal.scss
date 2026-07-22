@@ -18,6 +18,7 @@
   width: 100%;
   max-width: 460px;
   box-shadow: 0px 16px 40px rgba(0, 0, 0, 0.28);
+  outline: none;
 
   h4 {
     font-size: 1.5rem;
@@ -85,47 +86,17 @@
 .metodo-btn {
   border-width: 2px;
   font-weight: 700;
-  background-color: transparent;
-}
+  background-color: v.$color-white;
+  border-color: v.$color-border-medium;
+  color: v.$color-text-dark;
 
-.metodo-btn--efectivo {
-  --bs-btn-color: #{v.$color-success};
-  --bs-btn-border-color: #{v.$color-success};
-  --bs-btn-hover-bg: rgba(30, 122, 52, 0.1);
-  --bs-btn-hover-color: #{v.$color-success};
-  --bs-btn-hover-border-color: #{v.$color-success};
-
-  &.active {
-    background-color: v.$color-success;
-    border-color: v.$color-success;
-    color: v.$color-white;
+  &:hover:not(.active) {
+    background-color: v.$color-bg-light;
   }
-}
-
-.metodo-btn--tarjeta {
-  --bs-btn-color: #{v.$color-primary};
-  --bs-btn-border-color: #{v.$color-primary};
-  --bs-btn-hover-bg: rgba(29, 95, 174, 0.1);
-  --bs-btn-hover-color: #{v.$color-primary};
-  --bs-btn-hover-border-color: #{v.$color-primary};
 
   &.active {
-    background-color: v.$color-primary;
-    border-color: v.$color-primary;
-    color: v.$color-white;
-  }
-}
-
-.metodo-btn--credito {
-  --bs-btn-color: #b8860b;
-  --bs-btn-border-color: #b8860b;
-  --bs-btn-hover-bg: rgba(184, 134, 11, 0.1);
-  --bs-btn-hover-color: #b8860b;
-  --bs-btn-hover-border-color: #b8860b;
-
-  &.active {
-    background-color: #b8860b;
-    border-color: #b8860b;
+    background-color: #000;
+    border-color: #000;
     color: v.$color-white;
   }
 }
@@ -138,5 +109,21 @@
 
   .btn {
     font-size: 1.05rem;
+    background-color: v.$color-white;
+    border: 2px solid v.$color-border-medium;
+    color: v.$color-text-dark;
+
+    &:hover {
+      background-color: v.$color-bg-light;
+    }
+  }
+
+  .modal-btn-confirmar {
+    border-color: #000;
+
+    &:hover:not(:disabled) {
+      background-color: #000;
+      color: v.$color-white;
+    }
   }
 }

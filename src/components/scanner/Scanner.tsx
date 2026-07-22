@@ -81,7 +81,14 @@ const Scanner = () => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
     const texto = query.trim()
-    if (!texto) return
+    if (!texto) {
+      // Input vacío (recién se agregó un producto): Enter pasa directo a
+      // confirmar la compra, en vez de no hacer nada.
+      if (productosSeleccionados.length > 0) {
+        setMostrarCheckout(true)
+      }
+      return
+    }
     // Enter solo dispara el match exacto por código de barra.
     // La búsqueda por nombre se resuelve haciendo click en un resultado.
     if (esSoloDigitos(texto)) {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import { getClientes } from '../../services/clientes.service'
 import { registrarVentaCredito, registrarVentaContado } from '../../services/ventas.service'
 import { mensajeDeError } from '../../utils/errores'
@@ -16,11 +16,16 @@ interface Props {
 }
 
 const CheckoutModal = ({ productos, totalPesos, totalDolares, onCancelar, onConfirmado }: Props) => {
-  const [metodo, setMetodo] = useState<MetodoPago | null>(null)
+  const [metodo, setMetodo] = useState<MetodoPago | null>('efectivo')
   const [clientes, setClientes] = useState<Cliente[]>([])
   const [clienteId, setClienteId] = useState<number | ''>('')
   const [guardando, setGuardando] = useState(false)
   const [error, setError] = useState('')
+  const modalRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    modalRef.current?.focus()
+  }, [])
 
   useEffect(() => {
     if (metodo === 'credito') {
@@ -79,9 +84,15 @@ const CheckoutModal = ({ productos, totalPesos, totalDolares, onCancelar, onConf
     }
   }
 
+  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key !== 'Enter') return
+    e.preventDefault()
+    if (!guardando && metodo) handleConfirmar()
+  }
+
   return (
     <div className="modal-overlay">
-      <div className="modal-box">
+      <div className="modal-box" ref={modalRef} tabIndex={-1} onKeyDown={handleKeyDown}>
         <h4>Confirmar compra</h4>
 
         <div className="modal-total-destacado">
@@ -97,21 +108,21 @@ const CheckoutModal = ({ productos, totalPesos, totalDolares, onCancelar, onConf
           <div className="modal-metodo-pago">
             <button
               type="button"
-              className={`btn metodo-btn metodo-btn--efectivo ${metodo === 'efectivo' ? 'active' : ''}`}
+              className={`btn metodo-btn ${metodo === 'efectivo' ? 'active' : ''}`}
               onClick={() => setMetodo('efectivo')}
             >
               Efectivo
             </button>
             <button
               type="button"
-              className={`btn metodo-btn metodo-btn--tarjeta ${metodo === 'tarjeta' ? 'active' : ''}`}
+              className={`btn metodo-btn ${metodo === 'tarjeta' ? 'active' : ''}`}
               onClick={() => setMetodo('tarjeta')}
             >
               Tarjeta
             </button>
             <button
               type="button"
-              className={`btn metodo-btn metodo-btn--credito ${metodo === 'credito' ? 'active' : ''}`}
+              className={`btn metodo-btn ${metodo === 'credito' ? 'active' : ''}`}
               onClick={() => setMetodo('credito')}
             >
               Crédito
@@ -140,12 +151,12 @@ const CheckoutModal = ({ productos, totalPesos, totalDolares, onCancelar, onConf
         {error && <p className="text-danger">{error}</p>}
 
         <div className="modal-acciones">
-          <button type="button" className="btn btn-outline-secondary" onClick={onCancelar} disabled={guardando}>
+          <button type="button" className="btn modal-btn-cancelar" onClick={onCancelar} disabled={guardando}>
             Cancelar
           </button>
           <button
             type="button"
-            className="btn btn-primary"
+            className="btn modal-btn-confirmar"
             onClick={handleConfirmar}
             disabled={!metodo || guardando}
           >
