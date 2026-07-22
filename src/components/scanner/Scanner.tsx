@@ -189,8 +189,8 @@ const Scanner = () => {
           </div>
           {productosSeleccionados.map((p) => (
             <div className="scanner-item" key={p.codigo}>
-              <div className="scanner-item-img">
-                {p.image ? <img src={p.image} alt={p.name} /> : <span>Sin imagen</span>}
+              <div className={p.image ? 'scanner-item-img' : 'scanner-item-img scanner-item-img--vacia'}>
+                {p.image ? <img src={p.image} alt={p.name} /> : <span>img</span>}
               </div>
               <div
                 className="scanner-item-info scanner-item-info--clickeable"

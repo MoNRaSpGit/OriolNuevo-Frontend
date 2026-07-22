@@ -130,6 +130,14 @@
   }
 }
 
+.scanner-item-img--vacia {
+  border: 2px dashed v.$color-border-medium;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
 .scanner-item-info {
   flex: 1 1 0;
   min-width: 0;
