@@ -40,7 +40,16 @@ export function CarritoProvider({ children }: { children: ReactNode }) {
       if (existente) {
         return prev.map((p) =>
           p.codigo === producto.id
-            ? { ...p, cantidad: p.cantidad + 1, total: (p.cantidad + 1) * producto.price }
+            ? {
+                ...p,
+                name: producto.name,
+                descripcion: producto.description,
+                precio: producto.price,
+                currency: producto.currency || 'UYU',
+                image: producto.image,
+                cantidad: p.cantidad + 1,
+                total: (p.cantidad + 1) * producto.price,
+              }
             : p
         )
       }
