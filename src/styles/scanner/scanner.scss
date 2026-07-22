@@ -136,10 +136,32 @@
   text-align: left;
 }
 
+.scanner-item-info--clickeable {
+  cursor: pointer;
+  border-radius: v.$radius-base;
+  padding: 6px 10px;
+  margin: -6px -10px;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: rgba(29, 95, 174, 0.08);
+  }
+}
+
 .scanner-item-editar-wrap {
   flex: 1 1 0;
   display: flex;
   justify-content: center;
+  padding-left: 20px;
+  border-left: 1px solid v.$color-border-light;
+}
+
+.scanner-item-resultado {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding-left: 24px;
+  border-left: 1px solid v.$color-border-light;
 }
 
 .scanner-item-nombre {

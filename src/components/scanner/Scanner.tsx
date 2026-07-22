@@ -11,8 +11,14 @@ import '../../styles/scanner/scanner.scss'
 const esSoloDigitos = (texto: string) => /^\d+$/.test(texto.trim())
 
 const Scanner = () => {
-  const { productosSeleccionados, addOrUpdateProduct, removeProduct, actualizarDatosProducto, vaciarCarrito } =
-    useCarrito()
+  const {
+    productosSeleccionados,
+    addOrUpdateProduct,
+    updateProductQuantity,
+    removeProduct,
+    actualizarDatosProducto,
+    vaciarCarrito,
+  } = useCarrito()
   const [query, setQuery] = useState('')
   const [error, setError] = useState('')
   const [codigoNoEncontrado, setCodigoNoEncontrado] = useState<string | null>(null)
@@ -175,8 +181,10 @@ const Scanner = () => {
             <span className="scanner-item-editar-wrap">
               <span className="scanner-item-editar scanner-header-spacer" />
             </span>
-            <span className="scanner-item-cantidad">Cant.</span>
-            <span className="scanner-item-total">Total</span>
+            <span className="scanner-item-resultado">
+              <span className="scanner-item-cantidad">Cant.</span>
+              <span className="scanner-item-total">Total</span>
+            </span>
             <span className="scanner-item-quitar scanner-header-spacer" />
           </div>
           {productosSeleccionados.map((p) => (
@@ -184,7 +192,12 @@ const Scanner = () => {
               <div className="scanner-item-img">
                 {p.image ? <img src={p.image} alt={p.name} /> : <span>Sin imagen</span>}
               </div>
-              <div className="scanner-item-info">
+              <div
+                className="scanner-item-info scanner-item-info--clickeable"
+                onClick={() => updateProductQuantity(p.codigo, p.cantidad + 1)}
+                role="button"
+                title="Sumar 1 unidad"
+              >
                 <div className="scanner-item-nombre">{p.name}</div>
                 <div className="scanner-item-precio">
                   {p.currency === 'USD' ? 'U$' : '$'}
@@ -201,10 +214,12 @@ const Scanner = () => {
                   Editar
                 </button>
               </div>
-              <div className="scanner-item-cantidad">x{p.cantidad}</div>
-              <div className="scanner-item-total">
-                {p.currency === 'USD' ? 'U$' : '$'}
-                {p.total.toFixed(2)}
+              <div className="scanner-item-resultado">
+                <div className="scanner-item-cantidad">x{p.cantidad}</div>
+                <div className="scanner-item-total">
+                  {p.currency === 'USD' ? 'U$' : '$'}
+                  {p.total.toFixed(2)}
+                </div>
               </div>
               <button
                 type="button"
