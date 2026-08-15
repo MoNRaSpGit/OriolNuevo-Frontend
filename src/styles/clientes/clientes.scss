@@ -1,0 +1,210 @@
+@use '../variables' as v;
+
+.clientes-columnas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.clientes-col {
+  background-color: v.$color-white;
+  border: 1px solid v.$color-border-light;
+  border-radius: v.$radius-lg;
+  box-shadow: v.$shadow-card;
+  padding: 24px;
+  min-height: 320px;
+
+  h5 {
+    margin-bottom: 20px;
+    font-size: 1.25rem;
+  }
+}
+
+.cliente-lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 520px;
+  overflow-y: auto;
+}
+
+.cliente-item {
+  cursor: pointer;
+  padding: 16px 18px;
+  font-size: 1.05rem;
+  border-radius: v.$radius-base;
+  margin-bottom: 8px;
+  border: 1px solid v.$color-border-light;
+  transition: border-color 0.15s, box-shadow 0.15s;
+
+  &:hover:not(.active) {
+    border-color: v.$color-border-medium;
+    box-shadow: v.$shadow-card;
+  }
+
+  &.active {
+    background-color: v.$color-primary;
+    border-color: v.$color-primary;
+    color: v.$color-white;
+
+    .cliente-item-deuda--activa {
+      color: v.$color-white;
+    }
+  }
+}
+
+.cliente-item-nombre {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.cliente-item-deuda {
+  font-size: 0.95rem;
+  color: v.$color-text-muted;
+}
+
+.cliente-item-deuda--activa {
+  color: v.$color-danger;
+  font-weight: 600;
+}
+
+// --- Detalle del cliente ---
+
+.cliente-detalle-cabecera {
+  padding-bottom: 14px;
+  border-bottom: 1px solid v.$color-border-light;
+  margin-bottom: 16px;
+}
+
+.cliente-deuda-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-radius: v.$radius-base;
+  background-color: v.$color-bg-gray;
+  border: 1px solid v.$color-border-light;
+}
+
+.cliente-deuda-box--con-deuda {
+  background-color: #f7eeee;
+  border-color: #e3caca;
+}
+
+.cliente-deuda-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: v.$color-text-secondary;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.cliente-deuda-valor {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: v.$color-text-dark;
+}
+
+.cliente-deuda-box--con-deuda .cliente-deuda-valor {
+  color: v.$color-danger;
+}
+
+.historial-lista {
+  list-style: none;
+  padding: 0;
+  max-height: 520px;
+  overflow-y: auto;
+}
+
+.historial-item {
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  border-radius: v.$radius-base;
+  background-color: v.$color-white;
+  border: 2px solid v.$color-border-medium;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.historial-item--credito {
+  border-color: v.$color-danger;
+}
+
+.historial-item--contado {
+  border-color: v.$color-success;
+}
+
+.historial-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.historial-fecha {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+// Etiqueta de método de pago en texto simple (sin pill/badge) — más
+// legible para el público mayor de la app, prioriza texto claro por
+// sobre elementos decorativos.
+.historial-metodo {
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.historial-metodo--credito {
+  color: v.$color-danger;
+}
+
+.historial-metodo--contado {
+  color: v.$color-success;
+}
+
+.historial-detalle {
+  color: v.$color-text-muted;
+  font-size: 0.95rem;
+  margin-top: 4px;
+}
+
+.historial-pie {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.historial-total {
+  font-size: 0.95rem;
+  color: v.$color-text-dark;
+  font-weight: 700;
+}
+
+.historial-btn-reimprimir {
+  font-size: 0.85rem;
+  font-weight: 600;
+  background-color: v.$color-white;
+  border: 2px solid v.$color-border-medium;
+  color: v.$color-text-dark;
+
+  &:hover {
+    background-color: v.$color-bg-gray;
+    border-color: v.$color-text-dark;
+  }
+}
+
+.cliente-filtro-fecha {
+  max-width: 170px;
+}
+
+@media (max-width: 900px) {
+  .clientes-columnas {
+    grid-template-columns: 1fr;
+  }
+}

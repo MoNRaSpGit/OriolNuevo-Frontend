@@ -1,0 +1,273 @@
+@use '../variables' as v;
+
+// Paleta y medidas copiadas literalmente de tmp-laclaudia-front/src/styles/panel.css
+// (solo lectura de ese proyecto, nunca se modificó) para que el Panel de
+// Control de OrioNuevo tenga la misma identidad visual.
+
+// ----------------
+// HERO
+// ----------------
+.panel-hero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  border: 1px solid #dbe4ee;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #ffffff 0%, #f6fbff 100%);
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+  padding: 19px 21px;
+  margin-bottom: 28px;
+}
+
+.panel-hero-kicker {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #0f5132;
+  margin-bottom: 4px;
+}
+
+.panel-hero-titulo {
+  font-size: 1.7rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.panel-hero-subtitulo {
+  color: #64748b;
+  font-size: 0.95rem;
+  margin-top: 4px;
+  text-transform: capitalize;
+}
+
+.panel-hero-estado {
+  border: 1px solid #2f5a3a;
+  background-color: #1f3a28;
+  color: #d1fae5;
+  border-radius: 999px;
+  padding: 5px 14px;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+// ----------------
+// SECCIONES (panel-section de LaClaudia: contenedor propio con borde y
+// degradé, en vez de solo un título suelto sobre el fondo de la página)
+// ----------------
+.panel-section {
+  border: 1px solid #d6dde7;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #f8fafd 0%, #f4f7fb 100%);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+  padding: 16px 16px 18px;
+  margin-bottom: 24px;
+}
+
+.panel-section-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  margin: 0 0 14px;
+  color: #0f172a;
+}
+
+.panel-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+
+  .panel-section-title {
+    margin-bottom: 0;
+  }
+}
+
+// ----------------
+// TARJETAS / MÉTRICAS (panel-metric-card-v2 de LaClaudia)
+// ----------------
+.panel-tarjetas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 12px;
+}
+
+.panel-metric {
+  border: 1px solid #dbe2eb;
+  border-radius: 12px;
+  padding: 12px 13px;
+  background: #ffffff;
+  min-height: 108px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+}
+
+.panel-metric-titulo {
+  margin: 0 0 4px;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.panel-metric-valor {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #111827;
+}
+
+.panel-metric-valor--negativo {
+  color: #7f1d1d;
+}
+
+.panel-metric-nota {
+  margin-top: auto;
+  padding-top: 6px;
+  color: #64748b;
+  font-size: 0.78rem;
+  line-height: 1.25;
+}
+
+.panel-metric--highlight {
+  border-color: #5f95cf;
+  background: linear-gradient(180deg, #d8ebff 0%, #bfdfff 100%);
+  box-shadow: 0 8px 18px rgba(28, 82, 140, 0.2);
+
+  .panel-metric-titulo {
+    color: #18467d;
+  }
+
+  .panel-metric-valor {
+    color: #0f3b6d;
+  }
+
+  .panel-metric-nota {
+    color: #2a5c8f;
+  }
+}
+
+.panel-metric--editable {
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+  }
+}
+
+// ----------------
+// MOVIMIENTOS (panel-movement-row de LaClaudia: filas planas, sin card blanca)
+// ----------------
+.panel-movimientos {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+  max-width: 1000px;
+}
+
+.panel-movimiento {
+  border-radius: 10px;
+  background: #e8edf4;
+  border: 1px solid #c7d2e0;
+  padding: 10px 12px;
+}
+
+.panel-movimiento-fila {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.panel-movimiento-tipo {
+  font-weight: 700;
+  min-width: 56px;
+  font-size: 0.85rem;
+}
+
+.panel-movimiento-tipo--venta {
+  color: #1e5b3e;
+}
+
+.panel-movimiento-tipo--pago {
+  color: #7f1d1d;
+}
+
+.panel-movimiento-monto {
+  font-weight: 800;
+  flex-grow: 1;
+}
+
+.panel-monto-mas {
+  color: #1e5b3e;
+}
+
+.panel-monto-menos {
+  color: #7f1d1d;
+}
+
+.panel-movimiento-detalle-btn {
+  border: none;
+  background: transparent;
+  color: #2a5c8f;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 0;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.panel-movimiento-detalle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid #c7d2e0;
+}
+
+.panel-movimiento-detalle-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.panel-movimiento-detalle-fecha {
+  color: #526581;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.panel-movimiento-detalle-producto {
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 0.95rem;
+}
+
+.panel-movimiento-detalle-valor {
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+
+@media (max-width: 900px) {
+  .panel-tarjetas {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .panel-hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

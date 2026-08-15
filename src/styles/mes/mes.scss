@@ -1,0 +1,154 @@
+@use '../variables' as v;
+
+.mes-cabecera {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.mes-subtitulo {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: v.$color-text-secondary;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.mes-selector {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.mes-btn-nav {
+  border: 1px solid v.$color-border-medium;
+  background-color: v.$color-white;
+  color: v.$color-text-dark;
+  font-size: 1.3rem;
+  line-height: 1;
+  width: 40px;
+  height: 40px;
+  border-radius: v.$radius-base;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: v.$color-bg-gray;
+  }
+}
+
+.mes-titulo {
+  font-size: 1.6rem;
+  font-weight: 700;
+  min-width: 220px;
+  text-align: center;
+}
+
+.mes-total-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-radius: v.$radius-base;
+  background-color: v.$color-bg-gray;
+  border: 1px solid v.$color-border-light;
+  margin-bottom: 24px;
+  max-width: 520px;
+}
+
+.mes-total-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: v.$color-text-secondary;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.mes-total-valor {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: v.$color-text-dark;
+}
+
+.mes-semana {
+  background-color: v.$color-white;
+  border: 1px solid v.$color-border-light;
+  border-radius: v.$radius-lg;
+  box-shadow: v.$shadow-card;
+  padding: 18px 20px;
+  margin-bottom: 20px;
+  max-width: 620px;
+}
+
+.mes-semana-cabecera {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  border: none;
+  background: none;
+  padding: 0 0 10px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid v.$color-border-light;
+  cursor: pointer;
+  text-align: left;
+
+  h6 {
+    flex: 1;
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.mes-semana-flecha {
+  color: v.$color-text-secondary;
+  font-size: 0.85rem;
+  width: 14px;
+}
+
+.mes-semana-total {
+  font-weight: 700;
+  color: v.$color-text-dark;
+}
+
+.mes-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+
+  th {
+    text-align: left;
+    font-weight: 600;
+    color: v.$color-text-secondary;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    padding: 6px 4px;
+    border-bottom: 1px solid v.$color-border-light;
+  }
+
+  td {
+    padding: 8px 4px;
+    border-bottom: 1px solid v.$color-border-light;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+}
+
+.mes-fila-sin-ventas {
+  color: v.$color-text-light;
+}
+
+@media (max-width: 600px) {
+  .mes-semana {
+    max-width: 100%;
+  }
+}

@@ -1,0 +1,39 @@
+@use '../variables' as v;
+
+.grafico-ventas-mensuales {
+  background-color: v.$color-white;
+  border: 1px solid v.$color-border-light;
+  border-radius: v.$radius-lg;
+  box-shadow: v.$shadow-card;
+  padding: 18px 20px;
+  margin-bottom: 20px;
+  max-width: 620px;
+}
+
+.grafico-mes-card {
+  border-radius: v.$radius-base;
+  background: linear-gradient(180deg, v.$color-bg-light, v.$color-white);
+  padding: 8px;
+}
+
+.grafico-mes-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.grafico-mes-grilla {
+  stroke: v.$color-border-light;
+  stroke-width: 1;
+}
+
+.grafico-mes-etiqueta {
+  font-size: 12px;
+  fill: v.$color-text-light;
+}
+
+.grafico-mes-valor {
+  font-size: 11px;
+  font-weight: 600;
+  fill: v.$color-text-secondary;
+}

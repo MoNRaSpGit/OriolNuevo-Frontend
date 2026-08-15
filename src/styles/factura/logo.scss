@@ -1,0 +1,44 @@
+@media print {
+  .factura-logo-container {
+    height: 260px;
+    width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+  }
+
+  .factura-logo {
+    height: 260px;
+    width: 200px;
+    border: none;
+    outline: none;
+    filter: brightness(1.1);
+    clip-path: inset(2px 2px 2px 2px);
+  }
+}
+
+@media screen {
+  .factura-logo-container {
+    height: 260px;
+    width: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    margin-left: 100px;
+  }
+
+  .factura-logo {
+    height: 360px;
+    width: 400px;
+    border: none;
+    outline: none;
+    filter: brightness(1.1);
+    clip-path: inset(2px 2px 2px 2px);
+  }
+}

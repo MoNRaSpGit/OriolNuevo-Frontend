@@ -1,0 +1,66 @@
+@use '../variables' as v;
+
+/* ----------------
+   FACTURA CONTAINER
+   ---------------- */
+.factura-container {
+  // El rediseño general de la app subió el font-size de <html> para hacer
+  // todo mas grande y legible (adultos +50). La Factura tiene que mantener
+  // su formato pixel a pixel de antes, así que acá se neutraliza: esto es
+  // un valor absoluto en px (no relativo a la raíz), y como el font-size
+  // se hereda en valor calculado, todo lo que hay adentro que no fije su
+  // propio tamaño en rem vuelve a verse como si el bump global no existiera.
+  font-size: 16px;
+
+  position: relative;
+  height: 1073px;
+  border: 2px solid #333;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: v.$color-white;
+  max-width: 1200px;
+  margin: 20px auto;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ----------------
+   HEADER
+   ---------------- */
+.factura-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+}
+
+.logo-dueno-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.factura-logo {
+  width: 150px;
+  height: auto;
+}
+
+.thead-light th {
+  background-color: rgb(196, 194, 194);
+}
+
+/* ----------------
+   LÍNEA DIVISORIA
+   ---------------- */
+.linea-divisoria {
+  height: 2px;
+  background-color: v.$color-black;
+  margin: 10px 0;
+}
+
+@media print {
+  .col-eliminar,
+  .col-convertir {
+    display: none !important;
+  }
+}

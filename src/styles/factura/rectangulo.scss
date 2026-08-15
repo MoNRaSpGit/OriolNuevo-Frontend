@@ -1,0 +1,106 @@
+@use '../variables' as v;
+
+.header-box {
+  width: 400px;
+  height: 280px;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid black;
+
+  &[role='button'] {
+    cursor: pointer;
+  }
+}
+
+@media print {
+  .header-box {
+    cursor: default;
+  }
+}
+
+.header-row {
+  flex: 1;
+  text-align: center;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border-bottom: 2px solid black;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.header-rut {
+  background-color: v.$color-bg-gray-dark;
+  color: black;
+}
+
+.header-efacture {
+  background-color: white;
+  color: v.$color-text-muted;
+  font-weight: normal;
+  font-size: 14px;
+}
+
+.header-multi {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.header-titles-values {
+  font-weight: bold;
+  display: flex;
+  width: 100%;
+  border-bottom: 2px solid black;
+}
+
+.header-title {
+  background-color: v.$color-bg-gray-dark;
+  color: black;
+}
+
+.header-col {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  border-right: 2px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-title:last-child,
+.header-value:last-child {
+  border-right: none;
+}
+
+.header-value {
+  font-weight: normal;
+  font-size: 14px;
+  color: v.$color-text-muted;
+  border-bottom: none;
+}
+
+.header-receptor {
+  background-color: v.$color-bg-gray-dark;
+  color: black;
+}
+
+.header-cliente {
+  color: v.$color-text-muted;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5px;
+  font-weight: normal;
+  font-size: 14px;
+  height: 100px;
+  overflow: hidden;
+  padding-bottom: 20px;
+  padding-top: 15px;
+}
